@@ -2,6 +2,7 @@
   <div id="app">
     <v-app>
       <v-system-bar window dark app color="#212121">
+        <span>Kasir Alkaf</span>
         <v-spacer></v-spacer>
         <v-icon small @click="minimizeWindow()">mdi-window-minimize</v-icon>
 
