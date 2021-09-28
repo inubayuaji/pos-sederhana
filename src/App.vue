@@ -1,10 +1,50 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <v-app>
+      <v-system-bar
+        window
+        dark
+        app
+        color="#212121"
+      >
+        <v-spacer></v-spacer>
+        <v-icon small>mdi-window-minimize</v-icon>
+        <v-icon small>mdi-window-maximize</v-icon>
+        <v-icon small>mdi-window-close</v-icon>
+      </v-system-bar>
+
+      <v-navigation-drawer permanent expand-on-hover app>
+        <v-list nav dense>
+          <v-list-item link to="/">
+            <v-list-item-icon>
+              <v-icon>mdi-cash-register</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Kasir</v-list-item-title>
+          </v-list-item>
+          <v-list-item link href="/barang">
+            <v-list-item-icon>
+              <v-icon>mdi-package-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Barang</v-list-item-title>
+          </v-list-item>
+          <v-list-item link href="/admin">
+            <v-list-item-icon>
+              <v-icon>mdi-account-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Admin</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+      
+      <v-main>
+        <router-view></router-view>
+      </v-main>
+    </v-app>
   </div>
 </template>
 
+<style scoped>
+html {
+  overflow: hidden !important;
+}
+</style>
