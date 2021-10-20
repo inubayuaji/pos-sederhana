@@ -9,7 +9,7 @@
         <v-card-title class="text-h5"> Tambah Barang </v-card-title>
 
         <v-card-text>
-          <v-text-field dense label="Halo"></v-text-field>
+          <v-text-field dense label="ID"></v-text-field>
           <v-text-field dense label="Bar Code"></v-text-field>
           <v-text-field dense label="Nama"></v-text-field>
           <v-text-field dense label="Jumlah"></v-text-field>
