@@ -41,8 +41,8 @@
               <td>{{ row.item.nama }}</td>
               <td>{{ row.item.username }}</td>
               <td class="d-flex justify-end">
-                <confirm-hapus></confirm-hapus>
-                <form-edit></form-edit>
+                <confirm-hapus :username="row.item.username"></confirm-hapus>
+                <form-edit :username="row.item.username"></form-edit>
               </td>
             </tr>
           </template>
@@ -74,11 +74,15 @@ export default {
         },
         { text: "Username", value: "username" },
       ],
-      admin: []
     };
   },
+  computed: {
+    admin() {
+      return this.$store.state.admin;
+    }
+  },
   async mounted() {
-    this.admin = await this.$db.table('admin')
+    await this.$store.dispatch("GET_ADMIN")
   }
 };
 </script>
