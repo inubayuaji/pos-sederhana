@@ -6,7 +6,7 @@ const isBuild = process.env.NODE_ENV === "production";
 const pathToDbFile = path.join(
   /* global __static */
   __static,
-  isBuild ? "../../" : "../",
+  isBuild ? "../../" : "../src/",
   "database.sqlite"
 );
 
