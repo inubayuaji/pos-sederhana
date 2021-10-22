@@ -27,9 +27,9 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="admin"
           :items-per-page="5"
-          item-key="name"
+          item-key="username"
           class="elevation-1"
           :footer-props="{
             prevIcon: 'mdi-arrow-left',
@@ -38,8 +38,8 @@
         >
           <template v-slot:item="row">
             <tr>
-              <td>{{ row.item.name }}</td>
-              <td>{{ row.item.category }}</td>
+              <td>{{ row.item.nama }}</td>
+              <td>{{ row.item.username }}</td>
               <td class="d-flex justify-end">
                 <confirm-hapus></confirm-hapus>
                 <form-edit></form-edit>
@@ -68,55 +68,17 @@ export default {
     return {
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: "Nama",
           align: "start",
-          value: "name",
+          value: "nama",
         },
-        { text: "Category", value: "category" },
+        { text: "Username", value: "username" },
       ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          category: "Ice cream",
-        },
-        {
-          name: "Ice cream sandwich",
-          category: "Ice cream",
-        },
-        {
-          name: "Eclair",
-          category: "Cookie",
-        },
-        {
-          name: "Cupcake",
-          category: "Pastry",
-        },
-        {
-          name: "Gingerbread",
-          category: "Cookie",
-        },
-        {
-          name: "Jelly bean",
-          category: "Candy",
-        },
-        {
-          name: "Lollipop",
-          category: "Candy",
-        },
-        {
-          name: "Honeycomb",
-          category: "Toffee",
-        },
-        {
-          name: "Donut",
-          category: "Pastry",
-        },
-        {
-          name: "KitKat",
-          category: "Candy",
-        },
-      ],
+      admin: []
     };
   },
+  async mounted() {
+    this.admin = await this.$db.table('admin')
+  }
 };
 </script>
