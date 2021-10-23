@@ -28,27 +28,30 @@
         <v-row>
           <v-col cols="12">
             <v-data-table
-              :headers="headers"
-              :items="desserts"
-              :items-per-page="5"
-              item-key="name"
-              class="elevation-1"
-              :footer-props="{
-                prevIcon: 'mdi-arrow-left',
-                nextIcon: 'mdi-arrow-right',
-              }"
-            >
-              <template v-slot:item="row">
-                <tr>
-                  <td>{{ row.item.name }}</td>
-                  <td>{{ row.item.category }}</td>
-                  <td class="d-flex justify-end">
-                    <!-- <confirm-hapus></confirm-hapus>
-                    <form-edit></form-edit> -->
-                  </td>
-                </tr>
-              </template>
-            </v-data-table>
+          :headers="headers"
+          :items="barang"
+          :items-per-page="5"
+          item-key="name"
+          class="elevation-1"
+          :footer-props="{
+            prevIcon: 'mdi-arrow-left',
+            nextIcon: 'mdi-arrow-right',
+          }"
+        >
+          <template v-slot:item="row">
+            <tr>
+              <td>{{ row.item.id }}</td>
+              <td>{{ row.item.barcode }}</td>
+              <td>{{ row.item.nama }}</td>
+              <td>{{ row.item.jumlah }}</td>
+              <td class="d-flex justify-end">
+                <v-btn icon color="green">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
           </v-col>
         </v-row>
       </v-col>
@@ -68,57 +71,21 @@ export default {
   data() {
     return {
       headers: [
-        {
-          text: "Dessert (100g serving)",
-          align: "start",
-          value: "name",
-        },
-        { text: "Category", value: "category" },
-      ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          category: "Ice cream",
-        },
-        {
-          name: "Ice cream sandwich",
-          category: "Ice cream",
-        },
-        {
-          name: "Eclair",
-          category: "Cookie",
-        },
-        {
-          name: "Cupcake",
-          category: "Pastry",
-        },
-        {
-          name: "Gingerbread",
-          category: "Cookie",
-        },
-        {
-          name: "Jelly bean",
-          category: "Candy",
-        },
-        {
-          name: "Lollipop",
-          category: "Candy",
-        },
-        {
-          name: "Honeycomb",
-          category: "Toffee",
-        },
-        {
-          name: "Donut",
-          category: "Pastry",
-        },
-        {
-          name: "KitKat",
-          category: "Candy",
-        },
+        { text: "ID", value: "id"},
+        { text: "Barcode", value: "barcode"},
+        { text: "Nama", value: "nama"},
+        { text: "Jumlah", value: "jumlah" },
       ],
     };
   },
+  computed: {
+    barang() {
+      return this.$store.state.barang
+    }
+  },
+  mounted() {
+    this.$store.dispatch("GET_BARANG");
+  }
 };
 </script>
 
