@@ -6,7 +6,8 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // model
-import "./model/admin"
+import "./model/admin";
+import "./model/barang";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([

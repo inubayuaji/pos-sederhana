@@ -2,36 +2,20 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" icon color="orange">
-          <v-icon>mdi-note-edit-outline</v-icon>
+        <v-btn v-bind="attrs" v-on="on" icon color="blue">
+          <v-icon>mdi-alarm-panel-outline</v-icon>
         </v-btn>
       </template>
 
       <v-card>
-        <v-card-title class="text-h5"> Edit Barang </v-card-title>
+        <v-card-title class="text-h5"> Set Jumlah Barang </v-card-title>
 
         <v-card-text>
           <v-form ref="form" lazy-validation>
             <v-text-field
-              v-model="form.id"
-              :rules="[rules.required]"
+              v-model="form.jumlah"
               dense
-              required
-              label="ID"
-            ></v-text-field>
-            <v-text-field
-              v-model="form.barcode"
-              :rules="[rules.required]"
-              dense
-              required
-              label="Barcode"
-            ></v-text-field>
-            <v-text-field
-              v-model="form.nama"
-              :rules="[rules.required]"
-              dense
-              required
-              label="Nama"
+              label="Jumlah"
             ></v-text-field>
           </v-form>
         </v-card-text>
@@ -50,18 +34,13 @@
 
 <script>
 export default {
-  name: "FormEditBarang",
-  props: ["barang-id", "barang"],
+  name: "FormSetJumlah",
+  props: ["barang-id", "jumlah"],
   data() {
     return {
       dialog: false,
-      rules: {
-        required: (value) => !!value || "Required.",
-      },
       form: {
-        id: "",
-        barcode: "",
-        nama: "",
+        jumlah: 0,
       },
     };
   },
@@ -70,16 +49,16 @@ export default {
       var isValid = this.$refs.form.validate();
 
       if (isValid) {
-        this.$store.dispatch("UPDATE_BARANG", {
+        this.$store.dispatch("SET_JUMLAH_BARANG", {
           id: this.barangId,
-          barang: this.form,
+          jumlah: this.form.jumlah,
         });
         this.dialog = false;
       }
     },
   },
   mounted() {
-    this.form = this.barang;
+    this.form.jumlah = this.jumlah;
   }
 };
 </script>

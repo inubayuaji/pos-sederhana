@@ -27,7 +27,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="barang"
           :items-per-page="5"
           item-key="name"
           class="elevation-1"
@@ -38,11 +38,14 @@
         >
           <template v-slot:item="row">
             <tr>
-              <td>{{ row.item.name }}</td>
-              <td>{{ row.item.category }}</td>
+              <td>{{ row.item.id }}</td>
+              <td>{{ row.item.barcode }}</td>
+              <td>{{ row.item.nama }}</td>
+              <td>{{ row.item.jumlah }}</td>
               <td class="d-flex justify-end">
-                <confirm-hapus></confirm-hapus>
-                <form-edit></form-edit>
+                <confirm-hapus :barang-id="row.item.id"></confirm-hapus>
+                <form-edit :barang-id="row.item.id" :barang="row.item"></form-edit>
+                <form-set-jumlah :barang-id="row.item.id" :jumlah="row.item.jumlah"></form-set-jumlah>
               </td>
             </tr>
           </template>
@@ -56,6 +59,7 @@
 import FormTambah from "../components/barang/FormTambah.vue";
 import FormEdit from "../components/barang/FormEdit.vue";
 import ConfirmHapus from "../components/barang/ConfirmHapus.vue";
+import FormSetJumlah from '../components/barang/FormSetJumlah.vue';
 
 export default {
   name: "BarangPage",
@@ -63,60 +67,25 @@ export default {
     FormEdit,
     FormTambah,
     ConfirmHapus,
+    FormSetJumlah,
   },
   data() {
     return {
       headers: [
-        {
-          text: "Dessert (100g serving)",
-          align: "start",
-          value: "name",
-        },
-        { text: "Category", value: "category" },
-      ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          category: "Ice cream",
-        },
-        {
-          name: "Ice cream sandwich",
-          category: "Ice cream",
-        },
-        {
-          name: "Eclair",
-          category: "Cookie",
-        },
-        {
-          name: "Cupcake",
-          category: "Pastry",
-        },
-        {
-          name: "Gingerbread",
-          category: "Cookie",
-        },
-        {
-          name: "Jelly bean",
-          category: "Candy",
-        },
-        {
-          name: "Lollipop",
-          category: "Candy",
-        },
-        {
-          name: "Honeycomb",
-          category: "Toffee",
-        },
-        {
-          name: "Donut",
-          category: "Pastry",
-        },
-        {
-          name: "KitKat",
-          category: "Candy",
-        },
+        { text: "ID", value: "id"},
+        { text: "Barcode", value: "barcode"},
+        { text: "Nama", value: "nama"},
+        { text: "Jumlah", value: "jumlah" },
       ],
     };
   },
+  computed: {
+    barang() {
+      return this.$store.state.barang
+    }
+  },
+  mounted() {
+    this.$store.dispatch("GET_BARANG");
+  }
 };
 </script>

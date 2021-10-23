@@ -7,10 +7,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     admin: [],
+    barang: [],
   },
   mutations: {
     SET_ADMIN(state, payload) {
       state.admin = payload.admin;
+    },
+    SET_BARANG(state, payload) {
+      state.barang = payload.barang;
     },
   },
   actions: {
@@ -35,6 +39,36 @@ export default new Vuex.Store({
       ipcRenderer.invoke("DELETE_ADMIN", payload.username).then(() => {
         context.dispatch("GET_ADMIN");
       });
+    },
+
+    async GET_BARANG(context) {
+      ipcRenderer.invoke("GET_BARANG").then((res) => {
+        context.commit("SET_BARANG", { barang: res });
+      });
+    },
+    async SAVE_BARANG(context, payload) {
+      ipcRenderer.invoke("SAVE_BARANG", payload.barang).then(() => {
+        context.dispatch("GET_BARANG");
+      });
+    },
+    async UPDATE_BARANG(context, payload) {
+      ipcRenderer
+        .invoke("UPDATE_BARANG", payload.id, payload.barang)
+        .then(() => {
+          context.dispatch("GET_BARANG");
+        });
+    },
+    async DELETE_BARANG(context, payload) {
+      ipcRenderer.invoke("DELETE_BARANG", payload.id).then(() => {
+        context.dispatch("GET_BARANG");
+      });
+    },
+    async SET_JUMLAH_BARANG(context, payload) {
+      ipcRenderer
+        .invoke("SET_JUMLAH_BARANG", payload.id, payload.jumlah)
+        .then(() => {
+          context.dispatch("GET_BARANG");
+        });
     },
   },
   modules: {},
