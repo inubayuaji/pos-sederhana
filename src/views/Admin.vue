@@ -42,7 +42,7 @@
               <td>{{ row.item.username }}</td>
               <td class="d-flex justify-end">
                 <confirm-hapus :username="row.item.username"></confirm-hapus>
-                <form-edit :username="row.item.username"></form-edit>
+                <form-edit :username="row.item.username" :admin="row.item"></form-edit>
               </td>
             </tr>
           </template>

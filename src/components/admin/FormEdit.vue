@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" icon color="orange">
-            <v-icon>mdi-note-edit-outline</v-icon>
+          <v-icon>mdi-note-edit-outline</v-icon>
         </v-btn>
       </template>
 
@@ -52,7 +52,7 @@
 <script>
 export default {
   name: "FormEditAdmin",
-  props: ['username'],
+  props: ["username", "admin"],
   data() {
     return {
       dialog: false,
@@ -71,10 +71,16 @@ export default {
       var isValid = this.$refs.form.validate();
 
       if (isValid) {
-        this.$store.dispatch('UPDATE_ADMIN', { username: this.username, admin: this.form });
+        this.$store.dispatch("UPDATE_ADMIN", {
+          username: this.username,
+          admin: this.form,
+        });
         this.dialog = false;
       }
     },
   },
+  mounted() {
+    this.form = this.admin;
+  }
 };
 </script>
