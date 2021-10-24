@@ -1,24 +1,18 @@
-# kasir-fajar
+# Kasir Sederhana
+Bisa digunakan secara langsung ataupun di ubah lagi. Dibuat dengan vue dan electron js.
 
-## Project setup
-```
-npm install
-```
+## Installasi
+- clone atau download repository ini
+- `npm insatall`
+- `npm run electron:serve`
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Build produksi
+- `npm run electron:build`
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Lisensi
+MIT
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Author
+Nama: Inu Bayu Aji<br />
+Instagram: [instagram.com/_inubayuaji](https://instagram.com/_inubayuaji)<br />
+Site: [medium.com/@inubayuaji](https://medium.com/@inubayuaji)
