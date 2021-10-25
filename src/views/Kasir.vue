@@ -12,7 +12,7 @@
           <v-col cols="8">
             <v-row>
               <v-col cols="4">
-                <v-text-field label="Cari"></v-text-field>
+                <v-text-field label="Cari" v-model="search" @keyup="filterTable"></v-text-field>
               </v-col>
             </v-row>
           </v-col>
@@ -33,10 +33,7 @@
               :items-per-page="5"
               item-key="name"
               class="elevation-1"
-              :footer-props="{
-                prevIcon: 'mdi-arrow-left',
-                nextIcon: 'mdi-arrow-right',
-              }"
+              :hide-default-footer="true"
             >
               <template v-slot:item="row">
                 <tr>
@@ -55,6 +52,16 @@
             </v-data-table>
           </v-col>
         </v-row>
+
+        <v-row>
+          <v-col cols="12">
+            <v-pagination
+              v-model="page"
+              :length="maxPages"
+              @input="filterTable()"
+            ></v-pagination>
+          </v-col>
+        </v-row>
       </v-col>
 
       <v-col cols="4" class="h-100">
@@ -71,11 +78,13 @@ export default {
   name: "KasirPage",
   data() {
     return {
+      page: 1,
+      search: "",
       headers: [
         { text: "ID", value: "id" },
         { text: "Barcode", value: "barcode" },
         { text: "Nama", value: "nama" },
-        { text: "Harga", value: "harga"},
+        { text: "Harga", value: "harga" },
         { text: "Jumlah", value: "jumlah" },
       ],
     };
@@ -83,6 +92,9 @@ export default {
   computed: {
     barang() {
       return this.$store.state.barang;
+    },
+    maxPages() {
+      return this.$store.state.maxPages;
     },
   },
   methods: {
@@ -97,9 +109,18 @@ export default {
         },
       });
     },
+    async filterTable() {
+      await this.$store.dispatch("GET_BARANG", {
+        search: this.search,
+        page: this.page,
+      });
+    },
   },
   mounted() {
-    this.$store.dispatch("GET_BARANG");
+    this.$store.dispatch("GET_BARANG", {
+      search: this.search,
+      page: this.page,
+    });
   },
 };
 </script>
