@@ -10,7 +10,11 @@
       <v-col cols="8">
         <v-row>
           <v-col cols="4">
-            <v-text-field label="Cari"></v-text-field>
+            <v-text-field
+              label="Cari"
+              v-model="search"
+              @keyup="filterTable()"
+            ></v-text-field>
           </v-col>
         </v-row>
       </v-col>
@@ -31,10 +35,7 @@
           :items-per-page="5"
           item-key="username"
           class="elevation-1"
-          :footer-props="{
-            prevIcon: 'mdi-arrow-left',
-            nextIcon: 'mdi-arrow-right',
-          }"
+          :hide-default-footer="true"
         >
           <template v-slot:item="row">
             <tr>
@@ -42,11 +43,24 @@
               <td>{{ row.item.username }}</td>
               <td class="d-flex justify-end">
                 <confirm-hapus :username="row.item.username"></confirm-hapus>
-                <form-edit :username="row.item.username" :admin="row.item"></form-edit>
+                <form-edit
+                  :username="row.item.username"
+                  :admin="row.item"
+                ></form-edit>
               </td>
             </tr>
           </template>
         </v-data-table>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <v-pagination
+          v-model="page"
+          :length="maxPages"
+          @input="filterTable()"
+        ></v-pagination>
       </v-col>
     </v-row>
   </v-container>
@@ -66,6 +80,8 @@ export default {
   },
   data() {
     return {
+      page: 1,
+      search: "",
       headers: [
         {
           text: "Nama",
@@ -79,10 +95,21 @@ export default {
   computed: {
     admin() {
       return this.$store.state.admin;
+    },
+    maxPages() {
+      return this.$store.state.maxPages;
     }
   },
+  methods: {
+    async filterTable() {
+      await this.$store.dispatch("GET_ADMIN", {
+        search: this.search,
+        page: this.page,
+      });
+    },
+  },
   async mounted() {
-    await this.$store.dispatch("GET_ADMIN")
-  }
+    await this.$store.dispatch("GET_ADMIN", {});
+  },
 };
 </script>

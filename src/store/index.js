@@ -9,8 +9,12 @@ export default new Vuex.Store({
     admin: [],
     barang: [],
     orderList: [],
+    maxPages: 1,
   },
   mutations: {
+    SET_MAX_PAGES(state, payload) {
+      state.maxPages = payload.maxPages;
+    },
     SET_ADMIN(state, payload) {
       state.admin = payload.admin;
     },
@@ -43,9 +47,10 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async GET_ADMIN(context) {
-      ipcRenderer.invoke("GET_ADMIN").then((res) => {
-        context.commit("SET_ADMIN", { admin: res });
+    async GET_ADMIN(context, payload) {
+      ipcRenderer.invoke("GET_ADMIN", payload).then((res) => {
+        context.commit("SET_ADMIN", { admin: res.data });
+        context.commit("SET_MAX_PAGES", { maxPages: res.maxPages });
       });
     },
     async SAVE_ADMIN(context, payload) {
