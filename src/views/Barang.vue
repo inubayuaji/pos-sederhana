@@ -10,7 +10,7 @@
       <v-col cols="8">
         <v-row>
           <v-col cols="4">
-            <v-text-field label="Cari" v-model="search"></v-text-field>
+            <v-text-field label="Cari" v-model="search" @keyup="filterTable"></v-text-field>
           </v-col>
         </v-row>
       </v-col>
