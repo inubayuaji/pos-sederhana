@@ -43,6 +43,7 @@
                   <td>{{ row.item.id }}</td>
                   <td>{{ row.item.barcode }}</td>
                   <td>{{ row.item.nama }}</td>
+                  <td>Rp {{ row.item.harga }}</td>
                   <td>{{ row.item.jumlah }}</td>
                   <td class="d-flex justify-end">
                     <v-btn icon color="green" @click="addOrder(row.item)">
@@ -74,6 +75,7 @@ export default {
         { text: "ID", value: "id" },
         { text: "Barcode", value: "barcode" },
         { text: "Nama", value: "nama" },
+        { text: "Harga", value: "harga"},
         { text: "Jumlah", value: "jumlah" },
       ],
     };

@@ -33,6 +33,14 @@
               required
               label="Nama"
             ></v-text-field>
+            <v-text-field
+              type="number"
+              v-model="form.harga"
+              :rules="[rules.required]"
+              dense
+              required
+              label="Harga"
+            ></v-text-field>
           </v-form>
         </v-card-text>
 
@@ -62,6 +70,7 @@ export default {
         id: "",
         barcode: "",
         nama: "",
+        harga: 0,
       },
     };
   },
