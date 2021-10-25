@@ -8,6 +8,10 @@ export default new Vuex.Store({
   state: {
     admin: [],
     barang: [],
+    orderList: [
+      { barangId: "1213ijf", nama: "Buku", harga: 10000, jumlah: 1 },
+      { barangId: "fdniert", nama: "Pensil", harga: 5000, jumlah: 3 },
+    ],
   },
   mutations: {
     SET_ADMIN(state, payload) {
@@ -15,6 +19,21 @@ export default new Vuex.Store({
     },
     SET_BARANG(state, payload) {
       state.barang = payload.barang;
+    },
+    DELETE_ORDER(state, payload) {
+      state.orderList = state.orderList.filter(function(order) {
+        return order.barangId != payload.id;
+      });
+    },
+    RESET_ORDER(state) {
+      state.orderList = [];
+    },
+    UPDARE_SIZE_ORDER(state, payload) {
+      var i = state.orderList.findIndex(
+        (order) => order.barangId == payload.id
+      );
+
+      state.orderList[i].jumlah = payload.jumlah;
     },
   },
   actions: {
