@@ -8,10 +8,7 @@ export default new Vuex.Store({
   state: {
     admin: [],
     barang: [],
-    orderList: [
-      { barangId: "1213ijf", nama: "Buku", harga: 10000, jumlah: 1 },
-      { barangId: "fdniert", nama: "Pensil", harga: 5000, jumlah: 3 },
-    ],
+    orderList: [],
   },
   mutations: {
     SET_ADMIN(state, payload) {
@@ -19,6 +16,15 @@ export default new Vuex.Store({
     },
     SET_BARANG(state, payload) {
       state.barang = payload.barang;
+    },
+    ADD_ORDER(state, payload) {
+      var i = state.orderList.findIndex(
+        (order) => order.barangId == payload.barang.barangId
+      );
+
+      if (i == -1) {
+        state.orderList.push(payload.barang);
+      }
     },
     DELETE_ORDER(state, payload) {
       state.orderList = state.orderList.filter(function(order) {
@@ -80,6 +86,19 @@ export default new Vuex.Store({
     async DELETE_BARANG(context, payload) {
       ipcRenderer.invoke("DELETE_BARANG", payload.id).then(() => {
         context.dispatch("GET_BARANG");
+      });
+    },
+    async SCAN_BARANG(context, payload) {
+      ipcRenderer.invoke("SCAN_BARANG", payload.barcode).then((res) => {
+        context.commit("ADD_ORDER", {
+          barang: {
+            barangId: res.id,
+            barcode: res.barcode,
+            nama: res.nama,
+            harga: res.harga,
+            jumlah: 1,
+          },
+        });
       });
     },
     async SET_JUMLAH_BARANG(context, payload) {

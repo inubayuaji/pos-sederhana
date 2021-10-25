@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import onScan from "onscan.js";
+
 export default {
   name: "OrderDetail",
   data() {
@@ -80,9 +82,6 @@ export default {
     },
   },
   methods: {
-    // addOrder(barcode) {
-    //   // kelihatanya harus pindah ke vuex
-    // },
     hapus(id) {
       this.$store.commit("DELETE_ORDER", { id: id });
     },
@@ -97,9 +96,16 @@ export default {
     },
   },
   mounted() {
-    // document.addEventListener('scan', function(sScancode, iQuantity) {
-    //   // code here
-    // });
+    var _this = this;
+    window.onScan = onScan;
+
+    onScan.attachTo(document, {
+      onScan(barcode) {
+        _this.$store.dispatch("SCAN_BARANG", {
+          barcode: barcode,
+        });
+      },
+    });
   },
 };
 </script>

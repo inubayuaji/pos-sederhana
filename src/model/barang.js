@@ -23,11 +23,18 @@ ipcMain.handle("DELETE_BARANG", async function(event, id) {
     .delete();
 });
 
+ipcMain.handle("SCAN_BARANG", async function(event, barcode) {
+  return await db
+    .table("barang")
+    .where("barcode", "=", barcode)
+    .first();
+});
+
 ipcMain.handle("SET_JUMLAH_BARANG", async function(event, id, jumlah) {
   await db
     .table("barang")
     .where("id", "=", id)
     .update({
-        jumlah: jumlah
+      jumlah: jumlah,
     });
 });

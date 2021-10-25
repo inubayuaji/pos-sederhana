@@ -28,30 +28,30 @@
         <v-row>
           <v-col cols="12">
             <v-data-table
-          :headers="headers"
-          :items="barang"
-          :items-per-page="5"
-          item-key="name"
-          class="elevation-1"
-          :footer-props="{
-            prevIcon: 'mdi-arrow-left',
-            nextIcon: 'mdi-arrow-right',
-          }"
-        >
-          <template v-slot:item="row">
-            <tr>
-              <td>{{ row.item.id }}</td>
-              <td>{{ row.item.barcode }}</td>
-              <td>{{ row.item.nama }}</td>
-              <td>{{ row.item.jumlah }}</td>
-              <td class="d-flex justify-end">
-                <v-btn icon color="green">
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </td>
-            </tr>
-          </template>
-        </v-data-table>
+              :headers="headers"
+              :items="barang"
+              :items-per-page="5"
+              item-key="name"
+              class="elevation-1"
+              :footer-props="{
+                prevIcon: 'mdi-arrow-left',
+                nextIcon: 'mdi-arrow-right',
+              }"
+            >
+              <template v-slot:item="row">
+                <tr>
+                  <td>{{ row.item.id }}</td>
+                  <td>{{ row.item.barcode }}</td>
+                  <td>{{ row.item.nama }}</td>
+                  <td>{{ row.item.jumlah }}</td>
+                  <td class="d-flex justify-end">
+                    <v-btn icon color="green" @click="addOrder(row.item)">
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
+              </template>
+            </v-data-table>
           </v-col>
         </v-row>
       </v-col>
@@ -64,28 +64,41 @@
 </template>
 
 <script>
-import OrderDetail from '../components/OrderDetail.vue';
+import OrderDetail from "../components/OrderDetail.vue";
 export default {
   components: { OrderDetail },
   name: "KasirPage",
   data() {
     return {
       headers: [
-        { text: "ID", value: "id"},
-        { text: "Barcode", value: "barcode"},
-        { text: "Nama", value: "nama"},
+        { text: "ID", value: "id" },
+        { text: "Barcode", value: "barcode" },
+        { text: "Nama", value: "nama" },
         { text: "Jumlah", value: "jumlah" },
       ],
     };
   },
   computed: {
     barang() {
-      return this.$store.state.barang
-    }
+      return this.$store.state.barang;
+    },
+  },
+  methods: {
+    addOrder(barang) {
+      this.$store.commit("ADD_ORDER", {
+        barang: {
+          barangId: barang.id,
+          barcode: barang.barcode,
+          nama: barang.nama,
+          harga: barang.harga,
+          jumlah: 1,
+        },
+      });
+    },
   },
   mounted() {
     this.$store.dispatch("GET_BARANG");
-  }
+  },
 };
 </script>
 
