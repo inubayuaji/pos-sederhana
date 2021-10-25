@@ -71,9 +71,10 @@ export default new Vuex.Store({
       });
     },
 
-    async GET_BARANG(context) {
-      ipcRenderer.invoke("GET_BARANG").then((res) => {
-        context.commit("SET_BARANG", { barang: res });
+    async GET_BARANG(context, payload) {
+      ipcRenderer.invoke("GET_BARANG", payload).then((res) => {
+        context.commit("SET_BARANG", { barang: res.data });
+        context.commit("SET_MAX_PAGES", { maxPages: res.maxPages });
       });
     },
     async SAVE_BARANG(context, payload) {

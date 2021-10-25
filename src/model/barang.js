@@ -1,8 +1,41 @@
 import db from "../plugins/db";
 import { ipcMain } from "electron";
 
-ipcMain.handle("GET_BARANG", async function(event) {
-  return await db.table("barang");
+ipcMain.handle("GET_BARANG", async function(event, filter) {
+  var offset = (parseInt(filter.page) - 1) * 5;
+
+  var data = await db
+    .table("barang")
+    .limit(5)
+    .offset(offset)
+    .modify(function(query) {
+      if (filter.search != undefined) {
+        query
+          .where("nama", "LIKE", "%" + filter.search + "%")
+          .where("barcode", "LIKE", "%" + filter.search + "%")
+          .orWhere("id", "LIKE", "%" + filter.search + "%");
+      }
+    });
+
+  var countRows = (
+    await db
+      .table("barang")
+      .limit(5)
+      .offset(offset)
+      .modify(function(query) {
+        if (filter.search != undefined) {
+          query
+            .where("nama", "LIKE", "%" + filter.search + "%")
+            .where("barcode", "LIKE", "%" + filter.search + "%")
+            .orWhere("id", "LIKE", "%" + filter.search + "%");
+        }
+      })
+      .count("* AS total")
+  )[0]["total"];
+
+  var maxPages = Math.ceil(parseInt(countRows) / 2);
+
+  return { data: data, maxPages: maxPages };
 });
 
 ipcMain.handle("SAVE_BARANG", async function(event, barang) {
