@@ -98,7 +98,7 @@ export default {
     },
     maxPages() {
       return this.$store.state.maxPages;
-    }
+    },
   },
   methods: {
     async filterTable() {
@@ -109,7 +109,10 @@ export default {
     },
   },
   async mounted() {
-    await this.$store.dispatch("GET_ADMIN", {});
+    await this.$store.dispatch("GET_ADMIN", {
+      search: this.search,
+      page: this.page,
+    });
   },
 };
 </script>
