@@ -49,3 +49,20 @@ ipcMain.handle("DELETE_ADMIN", async function(event, username) {
     .where("username", "=", username)
     .delete();
 });
+
+ipcMain.handle("LOGIN_ADMIN", async function(event, auth) {
+  var admin = await db
+    .table("admin")
+    .where("username", "=", auth.username)
+    .first();
+
+  if (admin == undefined) {
+    return { login: false };
+  }
+
+  if (admin.password != auth.password) {
+    return { login: false };
+  }
+
+  return { login: true };
+});
