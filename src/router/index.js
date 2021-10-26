@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Kasir from '../views/Kasir.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Kasir from "../views/Kasir.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -20,12 +20,20 @@ const routes = [
     name: "Admin",
     component: () => import("../views/Admin.vue"),
   },
+  {
+    path: "/logout",
+    name: "Logout",
+    beforeEnter(to, from, next) {
+      localStorage.setItem("login", false);
+      next({ name: "Kasir" });
+    },
+  },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

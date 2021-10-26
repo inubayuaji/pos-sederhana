@@ -6,7 +6,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    login: false,
     admin: [],
     barang: [],
     orderList: [],
@@ -18,9 +17,6 @@ export default new Vuex.Store({
     },
     SET_ADMIN(state, payload) {
       state.admin = payload.admin;
-    },
-    SET_LOGIN_ADMIN(state, payload) {
-      state.login = payload.login;
     },
     SET_BARANG(state, payload) {
       state.barang = payload.barang;
@@ -76,7 +72,7 @@ export default new Vuex.Store({
     },
     async LOGIN_ADMIN(context, payload) {
       ipcRenderer.invoke("LOGIN_ADMIN", payload).then((res) => {
-        context.commit("SET_LOGIN_ADMIN", { login: res.login });
+        localStorage.setItem("login", res.login);
       });
     },
 
