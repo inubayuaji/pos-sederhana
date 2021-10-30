@@ -6,12 +6,24 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    notif: {
+      show: false,
+      message: "",
+    },
     admin: [],
     barang: [],
     orderList: [],
     maxPages: 1,
   },
   mutations: {
+    SHOW_NOTIF(state, payload) {
+      state.notif.show = true;
+      state.notif.message = payload.message;
+    },
+    CLOSE_NOTIF(state) {
+      state.notif.show = false;
+      state.notif.message = "";
+    },
     SET_MAX_PAGES(state, payload) {
       state.maxPages = payload.maxPages;
     },

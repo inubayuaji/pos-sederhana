@@ -68,13 +68,17 @@
         <order-detail></order-detail>
       </v-col>
     </v-row>
+
+    <notif></notif>
   </v-container>
 </template>
 
 <script>
 import OrderDetail from "../components/OrderDetail.vue";
+import Notif from "../components/Notif.vue";
+
 export default {
-  components: { OrderDetail },
+  components: { OrderDetail, Notif },
   name: "KasirPage",
   data() {
     return {

@@ -106,12 +106,12 @@ export default {
             _this.processeOrder(_this.orderListAdapter);
 
             // pesan berhasil
-            console.log("berhasil");
+            _this.$store.commit("SHOW_NOTIF", { message: "Order berhasil" });
             // reset order
             this.$store.commit("RESET_ORDER");
           } else {
             // pesan gagal
-            console.log("gagal");
+            _this.$store.commit("SHOW_NOTIF", { message: "Order gagal" });
             // reset order
             this.$store.commit("RESET_ORDER");
           }
