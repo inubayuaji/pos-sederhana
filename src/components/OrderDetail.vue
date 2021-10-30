@@ -40,7 +40,7 @@
 
     <v-card-actions class="p-0 mt-5">
       <v-btn color="red" @click="batal()">Batal</v-btn>
-      <v-btn color="green">Bayar</v-btn>
+      <v-btn color="green" @click="bayar()">Bayar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -65,6 +65,11 @@ export default {
 
       return total;
     },
+    orderListAdapter() {
+      return this.orderList.map((order) => {
+        return { id: order.barangId, jumlah: order.jumlah };
+      });
+    },
     tanggal() {
       var today = new Date();
       var dd = today.getDate();
@@ -88,16 +93,62 @@ export default {
     batal() {
       this.$store.commit("RESET_ORDER");
     },
+    bayar() {
+      var _this = this;
+      // check apakah barang ada semua
+      this.$store
+        .dispatch("CHECK_JUMLAH_BARANG", {
+          barang: this.orderListAdapter,
+        })
+        .then((res) => {
+          if (_this.canProcessed(res)) {
+            // kurangi stock
+            _this.processeOrder(_this.orderListAdapter);
+
+            // pesan berhasil
+            console.log("berhasil");
+            // reset order
+            this.$store.commit("RESET_ORDER");
+          } else {
+            // pesan gagal
+            console.log("gagal");
+            // reset order
+            this.$store.commit("RESET_ORDER");
+          }
+        });
+    },
+    canProcessed(checkResult) {
+      if (checkResult == undefined) {
+        return false;
+      }
+
+      for (let i = 0; i < checkResult.length; i++) {
+        if (!checkResult[i].atStock) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+    processeOrder(orderList) {
+      var _this = this;
+
+      orderList.forEach((order) => {
+        _this.$store.dispatch("SUB_JUMLAH_BARANG", {
+          id: order.id,
+          jumlah: order.jumlah,
+        });
+      });
+    },
     updateJumlah(event, id) {
       this.$store.commit("UPDARE_SIZE_ORDER", {
         id: id,
-        jumlah: event.target.value,
+        jumlah: parseInt(event.target.value),
       });
     },
   },
   mounted() {
     var _this = this;
-    window.onScan = onScan;
 
     onScan.attachTo(document, {
       onScan(barcode) {

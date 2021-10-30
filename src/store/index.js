@@ -55,7 +55,10 @@ export default new Vuex.Store({
     },
     async SAVE_ADMIN(context, payload) {
       ipcRenderer.invoke("SAVE_ADMIN", payload.admin).then(() => {
-        context.dispatch("GET_ADMIN");
+        context.dispatch("GET_ADMIN", {
+          search: "",
+          page: 1,
+        });
       });
     },
     async UPDATE_ADMIN(context, payload) {
@@ -84,19 +87,28 @@ export default new Vuex.Store({
     },
     async SAVE_BARANG(context, payload) {
       ipcRenderer.invoke("SAVE_BARANG", payload.barang).then(() => {
-        context.dispatch("GET_BARANG");
+        context.dispatch("GET_BARANG", {
+          search: "",
+          page: 1,
+        });
       });
     },
     async UPDATE_BARANG(context, payload) {
       ipcRenderer
         .invoke("UPDATE_BARANG", payload.id, payload.barang)
         .then(() => {
-          context.dispatch("GET_BARANG");
+          context.dispatch("GET_BARANG", {
+            search: "",
+            page: 1,
+          });
         });
     },
     async DELETE_BARANG(context, payload) {
       ipcRenderer.invoke("DELETE_BARANG", payload.id).then(() => {
-        context.dispatch("GET_BARANG");
+        context.dispatch("GET_BARANG", {
+          search: "",
+          page: 1,
+        });
       });
     },
     async SCAN_BARANG(context, payload) {
@@ -112,11 +124,31 @@ export default new Vuex.Store({
         });
       });
     },
+    async CHECK_JUMLAH_BARANG(context, payload) {
+      return ipcRenderer
+        .invoke("CHECK_JUMLAH_BARANG", payload.barang)
+        .then((res) => {
+          return res;
+        });
+    },
     async SET_JUMLAH_BARANG(context, payload) {
       ipcRenderer
         .invoke("SET_JUMLAH_BARANG", payload.id, payload.jumlah)
         .then(() => {
-          context.dispatch("GET_BARANG");
+          context.dispatch("GET_BARANG", {
+            search: "",
+            page: 1,
+          });
+        });
+    },
+    async SUB_JUMLAH_BARANG(context, payload) {
+      ipcRenderer
+        .invoke("SUB_JUMLAH_BARANG", payload.id, payload.jumlah)
+        .then(() => {
+          context.dispatch("GET_BARANG", {
+            search: "",
+            page: 1,
+          });
         });
     },
   },
