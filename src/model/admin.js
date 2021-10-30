@@ -27,7 +27,7 @@ ipcMain.handle("GET_ADMIN", async function(event, filter) {
       .count("* AS total")
   )[0]["total"];
 
-  var maxPages = Math.ceil(parseInt(countRows) / 2);
+  var maxPages = Math.ceil(parseInt(countRows) / 5);
 
   return { data: data, maxPages: maxPages };
 });
