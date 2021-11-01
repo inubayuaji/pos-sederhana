@@ -6,7 +6,7 @@ module.exports = {
       builderOptions: {
         productName: "Kasir",
         appId: "com.lunantu.kasir",
-        extraFiles: ["database.sqlite"],
+        extraFiles: ["src/database.sqlite"],
         // win: {
         //   icon: "icon.png",
         // },
