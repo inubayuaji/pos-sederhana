@@ -85,6 +85,7 @@ export default {
       if (isValid) {
         this.$store.dispatch("SAVE_BARANG", { barang: this.form });
         this.dialog = false;
+        this.$refs.form.reset()
       }
     },
   },

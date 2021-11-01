@@ -68,8 +68,9 @@ export default {
       var isValid = this.$refs.form.validate();
 
       if (isValid) {
-        this.$store.dispatch('SAVE_ADMIN', { admin: this.form });
+        this.$store.dispatch("SAVE_ADMIN", { admin: this.form });
         this.dialog = false;
+        this.$refs.form.reset()
       }
     },
   },
