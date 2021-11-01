@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "../store/index";
 import Kasir from "../views/Kasir.vue";
 
 Vue.use(VueRouter);
@@ -7,7 +8,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/kasir"
+    redirect: "/kasir",
   },
   {
     path: "/kasir",
@@ -29,6 +30,7 @@ const routes = [
     name: "Logout",
     beforeEnter(to, from, next) {
       localStorage.setItem("login", false);
+      store.commit("SET_LOGIN", { login: false });
       next({ name: "Kasir" });
     },
   },

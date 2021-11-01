@@ -41,14 +41,27 @@ export default {
         username: "",
         password: "",
       },
-      login: localStorage.getItem("login") == "true",
     };
+  },
+  computed: {
+    login: {
+      get() {
+        return this.$store.state.login;
+      },
+      set(value) {
+        this.$store.commit("SET_LOGIN", { login: value });
+      },
+    },
   },
   methods: {
     async attempt() {
       await this.$store.dispatch("LOGIN_ADMIN", this.auth);
       setTimeout(() => {
         this.login = localStorage.getItem("login") == "true";
+        this.auth = {
+          username: "",
+          password: "",
+        };
       }, 80);
     },
   },

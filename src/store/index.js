@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    login: false,
     notif: {
       show: false,
       message: "",
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     maxPages: 1,
   },
   mutations: {
+    SET_LOGIN(state, payload) {
+      state.login = payload.login;
+    },
     SHOW_NOTIF(state, payload) {
       state.notif.show = true;
       state.notif.message = payload.message;
