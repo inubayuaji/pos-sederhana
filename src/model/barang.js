@@ -20,8 +20,6 @@ ipcMain.handle("GET_BARANG", async function(event, filter) {
   var countRows = (
     await db
       .table("barang")
-      .limit(5)
-      .offset(offset)
       .modify(function(query) {
         if (filter.search != undefined) {
           query

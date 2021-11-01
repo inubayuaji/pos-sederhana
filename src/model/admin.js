@@ -17,8 +17,6 @@ ipcMain.handle("GET_ADMIN", async function(event, filter) {
   var countRows = (
     await db
       .table("admin")
-      .limit(5)
-      .offset(offset)
       .modify(function(query) {
         if (filter.search != undefined) {
           query.where("nama", "LIKE", "%" + filter.search + "%");
