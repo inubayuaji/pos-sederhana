@@ -1,63 +1,74 @@
 <template>
   <v-card outlined color="#212121" class="h-100 order-detail">
-    <div class="order-date">
-      <h3>Tanggal</h3>
-      <h3>{{ tanggal }}</h3>
-    </div>
+    <simplebar style="overflow-x: hidden; height: 100%;">
+      <div class="order-date">
+        <h3>Tanggal</h3>
+        <h3>{{ tanggal }}</h3>
+      </div>
 
-    <div class="mt-3">
-      <v-select
-        dense
-        :items="['Umum', 'Reseler']"
-        v-model="typeOrder"
-      ></v-select>
-    </div>
+      <div class="mt-3">
+        <v-select
+          dense
+          :items="['Umum', 'Reseler']"
+          v-model="typeOrder"
+        ></v-select>
+      </div>
 
-    <div class="hr mt-2 mb-2"></div>
+      <div class="hr mt-2 mb-2"></div>
 
-    <div class="order-list">
-      <div class="order-item" v-for="order in orderList" :key="order.barangId">
-        <div class="order-item-control">
-          <v-btn icon color="red" @click="hapus(order.barangId)">
-            <v-icon>mdi-delete-outline</v-icon>
-          </v-btn>
-        </div>
-        <div class="order-item-name">{{ order.nama }}</div>
-        <div class="order-item-price">
-          Rp <span>{{ order.harga }}</span>
-        </div>
-        <div class="order-item-total">
-          <input
-            type="number"
-            class="order-item-total-input"
-            :value="order.jumlah"
-            @keyup="updateJumlah($event, order.barangId)"
-          />
+      <div class="order-list">
+        <div
+          class="order-item"
+          v-for="order in orderList"
+          :key="order.barangId"
+        >
+          <div class="order-item-control">
+            <v-btn icon color="red" @click="hapus(order.barangId)">
+              <v-icon>mdi-delete-outline</v-icon>
+            </v-btn>
+          </div>
+          <div class="order-item-name">{{ order.nama }}</div>
+          <div class="order-item-price">
+            Rp <span>{{ order.harga }}</span>
+          </div>
+          <div class="order-item-total">
+            <input
+              type="number"
+              class="order-item-total-input"
+              :value="order.jumlah"
+              @keyup="updateJumlah($event, order.barangId)"
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="hr mt-2 mb-2"></div>
+      <div class="hr mt-2 mb-2"></div>
 
-    <div class="order-total">
-      <div class="order-total-label">Total</div>
-      <div class="order-total-price">
-        Rp <span>{{ totalOrder }}</span>
+      <div class="order-total">
+        <div class="order-total-label">Total</div>
+        <div class="order-total-price">
+          Rp <span>{{ totalOrder }}</span>
+        </div>
       </div>
-    </div>
 
-    <v-card-actions class="p-0 mt-5">
-      <v-btn color="red" @click="batal()">Batal</v-btn>
-      <v-btn color="green" @click="bayar()">Bayar</v-btn>
-    </v-card-actions>
+      <v-card-actions class="p-0 mt-5">
+        <v-btn color="red" @click="batal()">Batal</v-btn>
+        <v-btn color="green" @click="bayar()">Bayar</v-btn>
+      </v-card-actions>
+    </simplebar>
   </v-card>
 </template>
 
 <script>
 import onScan from "onscan.js";
+import simplebar from "simplebar-vue";
+import "simplebar/dist/simplebar.min.css";
 
 export default {
   name: "OrderDetail",
+  components: {
+    simplebar,
+  },
   data() {
     return {
       typeOrder: "Umum",
@@ -112,7 +123,7 @@ export default {
     },
     batal() {
       this.$store.commit("RESET_ORDER");
-      this.typeOrder = 'Umum';
+      this.typeOrder = "Umum";
     },
     bayar() {
       var _this = this;
@@ -130,7 +141,7 @@ export default {
             _this.$store.commit("SHOW_NOTIF", { message: "Order berhasil" });
             // reset order
             this.$store.commit("RESET_ORDER");
-            _this.typeOrder = 'Umum';
+            _this.typeOrder = "Umum";
           } else {
             // pesan gagal
             _this.$store.commit("SHOW_NOTIF", { message: "Order gagal" });

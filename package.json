@@ -16,6 +16,7 @@
     "core-js": "^3.6.5",
     "knex": "^0.95.11",
     "onscan.js": "^1.5.2",
+    "simplebar-vue": "^1.6.8",
     "sqlite3": "^5.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
