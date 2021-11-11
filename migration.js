@@ -19,8 +19,9 @@ async function up(db) {
       table.string("id").primary();
       table.string("barcode");
       table.string("nama");
-      table.string("harga").defaultTo(0);
-      table.string("jumlah").defaultTo(0);
+      table.integer("harga_umum").defaultTo(0);
+      table.integer("harga_reseler").defaultTo(0);
+      table.integer("jumlah").defaultTo(0);
     });
 
   await db.table("admin")

@@ -5,7 +5,15 @@
       <h3>{{ tanggal }}</h3>
     </div>
 
-    <hr class="mt-2 mb-5" />
+    <div class="mt-3">
+      <v-select
+        dense
+        :items="['Umum', 'Reseler']"
+        v-model="typeOrder"
+      ></v-select>
+    </div>
+
+    <div class="hr mt-2 mb-2"></div>
 
     <div class="order-list">
       <div class="order-item" v-for="order in orderList" :key="order.barangId">
@@ -29,7 +37,7 @@
       </div>
     </div>
 
-    <hr class="mt-2 mb-2" />
+    <div class="hr mt-2 mb-2"></div>
 
     <div class="order-total">
       <div class="order-total-label">Total</div>
@@ -51,16 +59,28 @@ import onScan from "onscan.js";
 export default {
   name: "OrderDetail",
   data() {
-    return {};
+    return {
+      typeOrder: "Umum",
+    };
   },
   computed: {
     orderList() {
       return this.$store.state.orderList;
     },
     totalOrder() {
+      var _this = this;
       var total = 0;
+
       this.orderList.forEach(function (order) {
-        total += order.harga * order.jumlah;
+        var harga = 0;
+
+        if (_this.typeOrder == "Umum") {
+          harga = order.harga_umum;
+        } else {
+          harga = order.harga_reseler;
+        }
+
+        total += harga * order.jumlah;
       });
 
       return total;
@@ -92,6 +112,7 @@ export default {
     },
     batal() {
       this.$store.commit("RESET_ORDER");
+      this.typeOrder = 'Umum';
     },
     bayar() {
       var _this = this;
@@ -109,6 +130,7 @@ export default {
             _this.$store.commit("SHOW_NOTIF", { message: "Order berhasil" });
             // reset order
             this.$store.commit("RESET_ORDER");
+            _this.typeOrder = 'Umum';
           } else {
             // pesan gagal
             _this.$store.commit("SHOW_NOTIF", { message: "Order gagal" });
@@ -210,5 +232,9 @@ input::-webkit-inner-spin-button {
   text-align: right;
   color: #fff;
   width: 50px;
+}
+
+.hr {
+  border-top: 1px solid #ccc;
 }
 </style>
