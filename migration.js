@@ -27,7 +27,6 @@ async function up(db) {
       table.string("id").primary();
       table.string("nama");
       table.integer("harga").defaultTo(0);
-      table.integer("jumlah").defaultTo(0);
     });
 
   await db.table("admin")
