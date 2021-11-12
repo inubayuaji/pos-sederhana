@@ -86,18 +86,16 @@ export default {
     openBarang() {
       this.$router.push({ name: "Kasir.Barang" });
     },
-    addOrder(jasa) { // net refactory
-      console.log(jasa);
-      // this.$store.commit("ADD_ORDER", {
-      //   barang: {
-      //     barangId: barang.id,
-      //     barcode: barang.barcode,
-      //     nama: barang.nama,
-      //     harga_umum: barang.harga_umum,
-      //     harga_reseler: barang.harga_reseler,
-      //     jumlah: 1,
-      //   },
-      // });
+    addOrder(jasa) {
+      this.$store.commit("ADD_ORDER", {
+        order: {
+          barangId: jasa.id,
+          type: 'jasa',
+          nama: jasa.nama,
+          harga: jasa.harga,
+          jumlah: 1,
+        },
+      });
     },
     async filterTable() {
       await this.$store.dispatch("GET_JASA", {

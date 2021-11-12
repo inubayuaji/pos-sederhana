@@ -52,7 +52,13 @@ export default new Vuex.Store({
     },
     DELETE_ORDER(state, payload) {
       state.orderList = state.orderList.filter(function(order) {
-        return order.itemId != payload.id;
+        var match = false;
+
+        if (order.itemId == payload.id && order.type == payload.type) {
+          match = true;
+        }
+
+        return !match;
       });
     },
     RESET_ORDER(state) {
@@ -60,7 +66,7 @@ export default new Vuex.Store({
     },
     UPDARE_SIZE_ORDER(state, payload) {
       var i = state.orderList.findIndex(
-        (order) => order.barangId == payload.id
+        (order) => order.itemId == payload.id && order.type == payload.type
       );
 
       state.orderList[i].jumlah = payload.jumlah;
@@ -136,7 +142,7 @@ export default new Vuex.Store({
         context.commit("ADD_ORDER", {
           order: {
             itemId: res.id,
-            type: 'barang',
+            type: "barang",
             nama: res.nama,
             harga: res.harga,
             jumlah: 1,

@@ -23,25 +23,20 @@
           :key="order.itemId"
         >
           <div class="order-item-control">
-            <v-btn icon color="tertiary" @click="hapus(order.itemId)">
+            <v-btn icon color="tertiary" @click="hapus(order.itemId, order.type)">
               <v-icon>mdi-delete-outline</v-icon>
             </v-btn>
           </div>
           <div class="order-item-name">{{ order.nama }}</div>
           <div class="order-item-price">
-            <template v-if="typeOrder == 'Umum'">
-              Rp <span>{{ order.harga_umum }}</span>
-            </template>
-            <template v-else>
-              Rp <span>{{ order.harga_reseler }}</span>
-            </template>
+              Rp <span>{{ hargaHadler(order) }}</span>
           </div>
           <div class="order-item-total">
             <input
               type="number"
               class="order-item-total-input"
               :value="order.jumlah"
-              @keyup="updateJumlah($event, order.itemId)"
+              @keyup="updateJumlah($event, order.itemId, order.type)"
             />
           </div>
         </div>
@@ -87,13 +82,7 @@ export default {
       var total = 0;
 
       this.orderList.forEach(function (order) {
-        var harga = 0;
-
-        if (_this.typeOrder == "Umum") {
-          harga = order.harga_umum;
-        } else {
-          harga = order.harga_reseler;
-        }
+        var harga = _this.hargaHadler(order);
 
         total += harga * order.jumlah;
       });
@@ -122,8 +111,8 @@ export default {
     },
   },
   methods: {
-    hapus(id) {
-      this.$store.commit("DELETE_ORDER", { id: id });
+    hapus(id, type) {
+      this.$store.commit("DELETE_ORDER", { id: id, type: type });
     },
     batal() {
       this.$store.commit("RESET_ORDER");
@@ -177,12 +166,24 @@ export default {
         });
       });
     },
-    updateJumlah(event, id) {
+    updateJumlah(event, id, type) {
       this.$store.commit("UPDARE_SIZE_ORDER", {
         id: id,
+        type: type,
         jumlah: parseInt(event.target.value),
       });
     },
+    hargaHadler(order) {
+      if(order.type == 'barang') {
+        if(this.typeOrder == 'Umum') {
+          return order.harga_umum;
+        } else {
+          return order.harga_reseler;
+        }
+      } else {
+        return order.harga;
+      }
+    }
   },
 };
 </script>
