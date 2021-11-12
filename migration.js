@@ -27,19 +27,36 @@ async function up(db) {
       table.string("id").primary();
       table.string("nama");
       table.integer("harga").defaultTo(0);
+    })
+    .createTable("order", function(table) {
+      table.increments("id");
+      table.timestamp("tanggal").defaultTo(db.fn.now());
+      table.integer("total_barang").defaultTo(0);
+      table.integer("total_jasa").defaultTo(0);
+      table.integer("total").defaultTo(0);
+    })
+    .createTable("order_item", function(table) {
+      table.increments("id");
+      table.integer("order_id");
+      table.string("nama_item");
+      table.integer("jumlah");
+      table.integer("harga");
     });
 
-  await db.table("admin")
+  await db
+    .table("admin")
     .insert([{ username: "admin", nama: "Admin", password: "admin" }])
     .then(function() {
       process.exit();
     });
 }
 
-async function down(db){
+async function down(db) {
   await db.schema.dropTableIfExists("admin");
   await db.schema.dropTableIfExists("barang");
   await db.schema.dropTableIfExists("jasa");
+  await db.schema.dropTableIfExists("order");
+  await db.schema.dropTableIfExists("order_item");
 }
 
 (async function() {
