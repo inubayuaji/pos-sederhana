@@ -28,6 +28,7 @@ ipcMain.handle("SAVE_ORDER", async function(event, orderList) {
     await db.table("order_item").insert({
       order_id: orderId,
       nama_item: order.nama,
+      type: order.type,
       jumlah: order.jumlah,
       harga: order.harga,
     });

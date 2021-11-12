@@ -38,6 +38,7 @@ async function up(db) {
     .createTable("order_item", function(table) {
       table.increments("id");
       table.integer("order_id");
+      table.string("type");
       table.string("nama_item");
       table.integer("jumlah");
       table.integer("harga");
