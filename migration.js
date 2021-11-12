@@ -22,6 +22,12 @@ async function up(db) {
       table.integer("harga_umum").defaultTo(0);
       table.integer("harga_reseler").defaultTo(0);
       table.integer("jumlah").defaultTo(0);
+    })
+    .createTable("jasa", function(table) {
+      table.string("id").primary();
+      table.string("nama");
+      table.integer("harga").defaultTo(0);
+      table.integer("jumlah").defaultTo(0);
     });
 
   await db.table("admin")
@@ -31,6 +37,13 @@ async function up(db) {
     });
 }
 
+async function down(db){
+  await db.schema.dropTableIfExists("admin");
+  await db.schema.dropTableIfExists("barang");
+  await db.schema.dropTableIfExists("jasa");
+}
+
 (async function() {
+  await down(db);
   await up(db);
 })();
