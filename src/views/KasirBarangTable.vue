@@ -94,9 +94,9 @@ export default {
     },
     addOrder(barang) {
       this.$store.commit("ADD_ORDER", {
-        barang: {
-          barangId: barang.id,
-          barcode: barang.barcode,
+        order: {
+          itemId: barang.id,
+          type: 'barang',
           nama: barang.nama,
           harga_umum: barang.harga_umum,
           harga_reseler: barang.harga_reseler,

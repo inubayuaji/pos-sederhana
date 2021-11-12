@@ -43,16 +43,16 @@ export default new Vuex.Store({
     },
     ADD_ORDER(state, payload) {
       var i = state.orderList.findIndex(
-        (order) => order.barangId == payload.barang.barangId
+        (order) => order.itemId == payload.order.itemId
       );
 
       if (i == -1) {
-        state.orderList.push(payload.barang);
+        state.orderList.push(payload.order);
       }
     },
     DELETE_ORDER(state, payload) {
       state.orderList = state.orderList.filter(function(order) {
-        return order.barangId != payload.id;
+        return order.itemId != payload.id;
       });
     },
     RESET_ORDER(state) {
@@ -134,9 +134,9 @@ export default new Vuex.Store({
     async SCAN_BARANG(context, payload) {
       ipcRenderer.invoke("SCAN_BARANG", payload.barcode).then((res) => {
         context.commit("ADD_ORDER", {
-          barang: {
-            barangId: res.id,
-            barcode: res.barcode,
+          order: {
+            itemId: res.id,
+            type: 'barang',
             nama: res.nama,
             harga: res.harga,
             jumlah: 1,

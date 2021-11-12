@@ -20,10 +20,10 @@
         <div
           class="order-item"
           v-for="order in orderList"
-          :key="order.barangId"
+          :key="order.itemId"
         >
           <div class="order-item-control">
-            <v-btn icon color="tertiary" @click="hapus(order.barangId)">
+            <v-btn icon color="tertiary" @click="hapus(order.itemId)">
               <v-icon>mdi-delete-outline</v-icon>
             </v-btn>
           </div>
@@ -41,7 +41,7 @@
               type="number"
               class="order-item-total-input"
               :value="order.jumlah"
-              @keyup="updateJumlah($event, order.barangId)"
+              @keyup="updateJumlah($event, order.itemId)"
             />
           </div>
         </div>
@@ -102,7 +102,7 @@ export default {
     },
     orderListAdapter() {
       return this.orderList.map((order) => {
-        return { id: order.barangId, jumlah: order.jumlah };
+        return { id: order.itemId, jumlah: order.jumlah };
       });
     },
     tanggal() {
