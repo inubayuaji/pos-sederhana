@@ -8,6 +8,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // model
 import "./model/admin";
 import "./model/barang";
+import "./model/jasa";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([

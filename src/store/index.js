@@ -13,6 +13,7 @@ export default new Vuex.Store({
     },
     admin: [],
     barang: [],
+    jasa: [],
     orderList: [],
     maxPages: 1,
   },
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     SET_BARANG(state, payload) {
       state.barang = payload.barang;
+    },
+    SET_JASA(state, payload) {
+      state.jasa = payload.jasa;
     },
     ADD_ORDER(state, payload) {
       var i = state.orderList.findIndex(
@@ -166,6 +170,37 @@ export default new Vuex.Store({
             page: 1,
           });
         });
+    },
+
+    async GET_JASA(context, payload) {
+      ipcRenderer.invoke("GET_JASA", payload).then((res) => {
+        context.commit("SET_JASA", { jasa: res.data });
+        context.commit("SET_MAX_PAGES", { maxPages: res.maxPages });
+      });
+    },
+    async SAVE_JASA(context, payload) {
+      ipcRenderer.invoke("SAVE_JASA", payload.jasa).then(() => {
+        context.dispatch("GET_JASA", {
+          search: "",
+          page: 1,
+        });
+      });
+    },
+    async UPDATE_JASA(context, payload) {
+      ipcRenderer.invoke("UPDATE_JASA", payload.id, payload.jasa).then(() => {
+        context.dispatch("GET_JASA", {
+          search: "",
+          page: 1,
+        });
+      });
+    },
+    async DELETE_JASA(context, payload) {
+      ipcRenderer.invoke("DELETE_JASA", payload.id).then(() => {
+        context.dispatch("GET_JASA", {
+          search: "",
+          page: 1,
+        });
+      });
     },
   },
   modules: {},
