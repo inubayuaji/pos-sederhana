@@ -1,11 +1,5 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <h1>Jasa</h1>
-      </v-col>
-    </v-row>
-
+  <div>
     <v-row align="center">
       <v-col cols="8">
         <v-row>
@@ -21,7 +15,8 @@
       <v-col cols="4">
         <v-row justify="end">
           <v-col cols="12" class="d-flex justify-end">
-            <form-tambah></form-tambah>
+            <v-btn class="mr-2" color="green draken-1">Barang</v-btn>
+            <v-btn color="blue draken-1" @click="openJasa()">Jasa</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -31,7 +26,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="jasa"
+          :items="barang"
           :items-per-page="5"
           item-key="name"
           class="elevation-1"
@@ -40,11 +35,15 @@
           <template v-slot:item="row">
             <tr>
               <td>{{ row.item.id }}</td>
+              <td>{{ row.item.barcode }}</td>
               <td>{{ row.item.nama }}</td>
-              <td>Rp {{ row.item.harga }}</td>
+              <td>Rp {{ row.item.harga_umum }}</td>
+              <td>Rp {{ row.item.harga_reseler }}</td>
+              <td>{{ row.item.jumlah }}</td>
               <td class="d-flex justify-end">
-                <confirm-hapus :jasa-id="row.item.id"></confirm-hapus>
-                <form-edit :jasa-id="row.item.id" :jasa="row.item"></form-edit>
+                <v-btn icon color="green" @click="addOrder(row.item)">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
               </td>
             </tr>
           </template>
@@ -61,50 +60,59 @@
         ></v-pagination>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
-import FormTambah from "../components/jasa/FormTambah.vue";
-import FormEdit from "../components/jasa/FormEdit.vue";
-import ConfirmHapus from "../components/jasa/ConfirmHapus.vue";
-
 export default {
-  name: "JasaPage",
-  components: {
-    FormEdit,
-    FormTambah,
-    ConfirmHapus,
-  },
+  name: "KasirBarangTable",
   data() {
     return {
       page: 1,
       search: "",
       headers: [
         { text: "ID", value: "id" },
+        { text: "Barcode", value: "barcode" },
         { text: "Nama", value: "nama" },
-        { text: "Harga", value: "harga" },
+        { text: "Harga Umum", value: "harga_umum" },
+        { text: "Harga Reseler", value: "harga_reseler" },
+        { text: "Jumlah", value: "jumlah" },
       ],
     };
   },
   computed: {
-    jasa() {
-      return this.$store.state.jasa;
+    barang() {
+      return this.$store.state.barang;
     },
     maxPages() {
       return this.$store.state.maxPages;
     },
   },
   methods: {
+    openJasa() {
+      this.$router.push({ name: "Kasir.Jasa" });
+    },
+    addOrder(barang) {
+      this.$store.commit("ADD_ORDER", {
+        barang: {
+          barangId: barang.id,
+          barcode: barang.barcode,
+          nama: barang.nama,
+          harga_umum: barang.harga_umum,
+          harga_reseler: barang.harga_reseler,
+          jumlah: 1,
+        },
+      });
+    },
     async filterTable() {
-      await this.$store.dispatch("GET_JASA", {
+      await this.$store.dispatch("GET_BARANG", {
         search: this.search,
         page: this.page,
       });
     },
   },
   mounted() {
-    this.$store.dispatch("GET_JASA", {
+    this.$store.dispatch("GET_BARANG", {
       search: this.search,
       page: this.page,
     });

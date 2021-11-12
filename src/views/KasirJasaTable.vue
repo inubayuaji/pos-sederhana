@@ -1,11 +1,5 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <h1>Jasa</h1>
-      </v-col>
-    </v-row>
-
+  <div>
     <v-row align="center">
       <v-col cols="8">
         <v-row>
@@ -21,7 +15,8 @@
       <v-col cols="4">
         <v-row justify="end">
           <v-col cols="12" class="d-flex justify-end">
-            <form-tambah></form-tambah>
+            <v-btn class="mr-2" color="green draken-1" @click="openBarang()">Barang</v-btn>
+            <v-btn color="blue draken-1">Jasa</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -43,8 +38,9 @@
               <td>{{ row.item.nama }}</td>
               <td>Rp {{ row.item.harga }}</td>
               <td class="d-flex justify-end">
-                <confirm-hapus :jasa-id="row.item.id"></confirm-hapus>
-                <form-edit :jasa-id="row.item.id" :jasa="row.item"></form-edit>
+                <v-btn icon color="green" @click="addOrder(row.item)">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
               </td>
             </tr>
           </template>
@@ -61,21 +57,12 @@
         ></v-pagination>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
-import FormTambah from "../components/jasa/FormTambah.vue";
-import FormEdit from "../components/jasa/FormEdit.vue";
-import ConfirmHapus from "../components/jasa/ConfirmHapus.vue";
-
 export default {
-  name: "JasaPage",
-  components: {
-    FormEdit,
-    FormTambah,
-    ConfirmHapus,
-  },
+  name: "KasirJasaTable",
   data() {
     return {
       page: 1,
@@ -96,6 +83,22 @@ export default {
     },
   },
   methods: {
+    openBarang() {
+      this.$router.push({ name: "Kasir.Barang" });
+    },
+    addOrder(jasa) { // net refactory
+      console.log(jasa);
+      // this.$store.commit("ADD_ORDER", {
+      //   barang: {
+      //     barangId: barang.id,
+      //     barcode: barang.barcode,
+      //     nama: barang.nama,
+      //     harga_umum: barang.harga_umum,
+      //     harga_reseler: barang.harga_reseler,
+      //     jumlah: 1,
+      //   },
+      // });
+    },
     async filterTable() {
       await this.$store.dispatch("GET_JASA", {
         search: this.search,

@@ -14,6 +14,18 @@ const routes = [
     path: "/kasir",
     name: "Kasir",
     component: Kasir,
+    children: [
+      {
+        path: "/kasir/barang",
+        name: "Kasir.Barang",
+        component: () => import("../views/KasirBarangTable"),
+      },
+      {
+        path: "/kasir/jasa",
+        name: "Kasir.Jasa",
+        component: () => import("../views/KasirJasaTable"),
+      },
+    ],
   },
   {
     path: "/barang",
