@@ -28,7 +28,7 @@ export default {
   components: { OrderDetail, Notif },
   name: "KasirPage",
   mounted() {
-    this.$router.push({ name: "Kasir.Barang" });
+    this.$router.push({ name: "Kasir.Barang" }).catch(()=>{});
   },
 };
 </script>
