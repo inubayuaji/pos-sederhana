@@ -3,7 +3,7 @@
     {{ message }}
 
     <template v-slot:action="{ attrs }">
-      <v-btn color="red" text v-bind="attrs" @click="close()"> Tutup </v-btn>
+      <v-btn color="tertiary" text v-bind="attrs" @click="close()"> Tutup </v-btn>
     </template>
   </v-snackbar>
 </template>

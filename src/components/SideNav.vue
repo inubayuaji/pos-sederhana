@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent expand-on-hover app>
+  <v-navigation-drawer permanent expand-on-hover app style="background: rgb(61 61 70)">
     <v-list nav dense>
       <v-list-item link :to="{ name: 'Kasir' }">
         <v-list-item-icon>

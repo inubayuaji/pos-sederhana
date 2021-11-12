@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" icon color="orange">
+        <v-btn v-bind="attrs" v-on="on" icon color="quaternary">
           <v-icon>mdi-note-edit-outline</v-icon>
         </v-btn>
       </template>
@@ -42,7 +42,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialog = false">Batal</v-btn>
-          <v-btn color="orange" text @click="simpan()">Simpan</v-btn>
+          <v-btn color="quaternary" text @click="simpan()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

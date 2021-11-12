@@ -15,8 +15,8 @@
       <v-col cols="4">
         <v-row justify="end">
           <v-col cols="12" class="d-flex justify-end">
-            <v-btn class="mr-2" color="green draken-1">Barang</v-btn>
-            <v-btn color="blue draken-1" @click="openJasa()">Jasa</v-btn>
+            <v-btn class="mr-2" color="primary">Barang</v-btn>
+            <v-btn color="quinary" @click="openJasa()">Jasa</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -41,7 +41,7 @@
               <td>Rp {{ row.item.harga_reseler }}</td>
               <td>{{ row.item.jumlah }}</td>
               <td class="d-flex justify-end">
-                <v-btn icon color="green" @click="addOrder(row.item)">
+                <v-btn icon color="primary" @click="addOrder(row.item)">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </td>

@@ -1,23 +1,29 @@
 <template>
-  <v-container class="h-100">
-    <v-row class="h-100">
-      <v-col cols="8">
+  <div class="kasir">
+    <div class="table-item">
+      <v-container>
         <v-row>
           <v-col cols="12">
             <h1>Kasir</h1>
           </v-col>
         </v-row>
 
-        <router-view></router-view>
-      </v-col>
+        <v-row>
+          <v-col>
+            <router-view></router-view>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
 
-      <v-col cols="4" class="h-100">
-        <order-detail></order-detail>
-      </v-col>
-    </v-row>
+    <div class="order-detail">
+      <order-detail></order-detail>
+    </div>
 
-    <notif></notif>
-  </v-container>
+    <div class="notif">
+      <notif></notif>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -28,12 +34,33 @@ export default {
   components: { OrderDetail, Notif },
   name: "KasirPage",
   mounted() {
-    this.$router.push({ name: "Kasir.Barang" }).catch(()=>{});
+    this.$router.push({ name: "Kasir.Barang" }).catch(() => {});
   },
 };
 </script>
 
 <style scoped>
+.kasir {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.table-item {
+  width: calc(100% - 290px);
+  height: 100%;
+}
+.order-detail {
+  width: 290px;
+  height: 100%;
+}
+@media only screen and (min-width: 900px) {
+  .table-item {
+    width: calc(100% - 350px);
+  }
+  .order-detail {
+    width: 350px;
+  }
+}
 .h-100 {
   height: 100%;
 }

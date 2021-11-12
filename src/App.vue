@@ -11,7 +11,7 @@
             label="Password"
             type="password"
           ></v-text-field>
-          <v-btn color="green" @click="attempt()">Login</v-btn>
+          <v-btn color="primary" @click="attempt()">Login</v-btn>
         </div>
       </div>
     </v-app>

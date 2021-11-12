@@ -1,6 +1,6 @@
 <template>
-  <v-card outlined color="#212121" class="h-100 order-detail">
-    <simplebar style="overflow-x: hidden; height: 100%">
+  <v-card outlined class="order-detail">
+    <simplebar class="bar">
       <div class="order-date">
         <h3>Tanggal</h3>
         <h3>{{ tanggal }}</h3>
@@ -23,7 +23,7 @@
           :key="order.barangId"
         >
           <div class="order-item-control">
-            <v-btn icon color="red" @click="hapus(order.barangId)">
+            <v-btn icon color="tertiary" @click="hapus(order.barangId)">
               <v-icon>mdi-delete-outline</v-icon>
             </v-btn>
           </div>
@@ -57,8 +57,8 @@
       </div>
 
       <v-card-actions class="p-0 mt-5">
-        <v-btn color="red" @click="batal()">Batal</v-btn>
-        <v-btn color="green" @click="bayar()">Bayar</v-btn>
+        <v-btn color="tertiary" @click="batal()">Batal</v-btn>
+        <v-btn color="primary" @click="bayar()">Bayar</v-btn>
       </v-card-actions>
     </simplebar>
   </v-card>
@@ -189,7 +189,11 @@ export default {
 
 <style scoped>
 .order-detail {
+  width: 100%;
+  height: 100%;
   padding: 15px;
+  background-color: rgb(29 29 35);
+  border-color: rgb(29 29 35);
 }
 .order-date {
   display: flex;
@@ -236,6 +240,11 @@ input::-webkit-inner-spin-button {
   text-align: right;
   color: #fff;
   width: 50px;
+}
+
+.bar {
+  overflow-x: hidden;
+  height: 100%;
 }
 
 .hr {
