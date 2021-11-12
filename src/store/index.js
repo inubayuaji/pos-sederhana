@@ -208,6 +208,10 @@ export default new Vuex.Store({
         });
       });
     },
+
+    async SAVE_ORDER(context, payload) {
+      ipcRenderer.invoke("SAVE_ORDER", payload.orderList);
+    }
   },
   modules: {},
 });

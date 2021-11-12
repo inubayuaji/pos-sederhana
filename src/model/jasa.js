@@ -1,5 +1,5 @@
 import db from "../plugins/db";
-import { ipcMain, ipcRenderer } from "electron";
+import { ipcMain } from "electron";
 
 ipcMain.handle("GET_JASA", async function(event, filter) {
   var offset = (parseInt(filter.page) - 1) * 5;

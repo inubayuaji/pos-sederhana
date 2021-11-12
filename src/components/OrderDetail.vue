@@ -17,19 +17,19 @@
       <div class="hr mt-2 mb-2"></div>
 
       <div class="order-list">
-        <div
-          class="order-item"
-          v-for="order in orderList"
-          :key="order.itemId"
-        >
+        <div class="order-item" v-for="order in orderList" :key="order.itemId">
           <div class="order-item-control">
-            <v-btn icon color="tertiary" @click="hapus(order.itemId, order.type)">
+            <v-btn
+              icon
+              color="tertiary"
+              @click="hapus(order.itemId, order.type)"
+            >
               <v-icon>mdi-delete-outline</v-icon>
             </v-btn>
           </div>
           <div class="order-item-name">{{ order.nama }}</div>
           <div class="order-item-price">
-              Rp <span>{{ hargaHadler(order) }}</span>
+            Rp <span>{{ hargaHadler(order) }}</span>
           </div>
           <div class="order-item-total">
             <input
@@ -90,9 +90,13 @@ export default {
       return total;
     },
     orderListAdapter() {
-      return this.orderList.map((order) => {
-        return { id: order.itemId, jumlah: order.jumlah };
-      });
+      return this.orderList
+        .filter((order) => {
+          return order.type != "jasa";
+        })
+        .map((order) => {
+          return { id: order.itemId, jumlah: order.jumlah };
+        });
     },
     tanggal() {
       var today = new Date();
@@ -126,10 +130,7 @@ export default {
           barang: this.orderListAdapter,
         })
         .then((res) => {
-          if (_this.canProcessed(res)) {
-            // kurangi stock
-            _this.processeOrder(_this.orderListAdapter);
-
+          if (_this.processeOrder(res)) {
             // pesan berhasil
             _this.$store.commit("SHOW_NOTIF", { message: "Order berhasil" });
             // reset order
@@ -143,7 +144,16 @@ export default {
           }
         });
     },
-    canProcessed(checkResult) {
+    isContainBarang(orderList) {
+      for (var i = 0; i < orderList.length; i++) {
+        if (orderList[i].type == "barang") {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    canBarangProcessed(checkResult) {
       if (checkResult == undefined) {
         return false;
       }
@@ -156,15 +166,47 @@ export default {
 
       return true;
     },
-    processeOrder(orderList) {
+    processeOrder(checkResult) {
       var _this = this;
 
-      orderList.forEach((order) => {
-        _this.$store.dispatch("SUB_JUMLAH_BARANG", {
-          id: order.id,
-          jumlah: order.jumlah,
-        });
+      if(this.orderList.length == 0) {
+        return false;
+      }
+
+      if (this.isContainBarang(this.orderList)) {
+        if (this.canBarangProcessed(checkResult)) {
+          this.orderList.forEach((order) => {
+            if (order.type == "barang") {
+              this.$store.dispatch("SUB_JUMLAH_BARANG", {
+                id: order.itemId,
+                jumlah: order.jumlah,
+              });
+            }
+          });
+        } else {
+          return false;
+        }
+      }
+
+      this.$store.dispatch("SAVE_ORDER", {
+        orderList: this.orderList.map((order) => {
+          var newOrder = {
+            type: order.type,
+            nama: order.nama,
+            jumlah: order.jumlah,
+          };
+
+          if (order.type == "barang") {
+            newOrder["harga"] = _this.hargaHadler(order);
+          } else {
+            newOrder["harga"] = order.harga;
+          }
+
+          return newOrder;
+        }),
       });
+
+      return true;
     },
     updateJumlah(event, id, type) {
       this.$store.commit("UPDARE_SIZE_ORDER", {
@@ -174,8 +216,8 @@ export default {
       });
     },
     hargaHadler(order) {
-      if(order.type == 'barang') {
-        if(this.typeOrder == 'Umum') {
+      if (order.type == "barang") {
+        if (this.typeOrder == "Umum") {
           return order.harga_umum;
         } else {
           return order.harga_reseler;
@@ -183,7 +225,7 @@ export default {
       } else {
         return order.harga;
       }
-    }
+    },
   },
 };
 </script>
