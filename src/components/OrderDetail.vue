@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import onScan from "onscan.js";
 import simplebar from "simplebar-vue";
 import "simplebar/dist/simplebar.min.css";
 
@@ -179,17 +178,6 @@ export default {
         jumlah: parseInt(event.target.value),
       });
     },
-  },
-  mounted() {
-    var _this = this;
-
-    onScan.attachTo(document, {
-      onScan(barcode) {
-        _this.$store.dispatch("SCAN_BARANG", {
-          barcode: barcode,
-        });
-      },
-    });
   },
 };
 </script>
