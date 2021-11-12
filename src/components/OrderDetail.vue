@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined class="order-detail">
+  <v-card elevation="0" color="rgb(29 29 35)" class="order-detail">
     <simplebar class="bar">
       <div class="order-date">
         <h3>Tanggal</h3>
