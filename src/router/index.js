@@ -38,6 +38,11 @@ const routes = [
     component: () => import("../views/Jasa.vue"),
   },
   {
+    path: "/akuntansi",
+    name: "Akuntansi",
+    component: () => import("../views/Akuntansi.vue"),
+  },
+  {
     path: "/admin",
     name: "Admin",
     component: () => import("../views/Admin.vue"),
