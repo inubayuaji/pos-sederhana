@@ -1,6 +1,6 @@
 <template>
   <v-card outlined color="#212121" class="h-100 order-detail">
-    <simplebar style="overflow-x: hidden; height: 100%;">
+    <simplebar style="overflow-x: hidden; height: 100%">
       <div class="order-date">
         <h3>Tanggal</h3>
         <h3>{{ tanggal }}</h3>
@@ -29,7 +29,12 @@
           </div>
           <div class="order-item-name">{{ order.nama }}</div>
           <div class="order-item-price">
-            Rp <span>{{ order.harga }}</span>
+            <template v-if="typeOrder == 'Umum'">
+              Rp <span>{{ order.harga_umum }}</span>
+            </template>
+            <template v-else>
+              Rp <span>{{ order.harga_reseler }}</span>
+            </template>
           </div>
           <div class="order-item-total">
             <input
