@@ -135,6 +135,7 @@ export default {
             _this.$store.commit("SHOW_NOTIF", { message: "Order berhasil" });
             // reset order
             this.$store.commit("RESET_ORDER");
+            this.$store.dispatch("CHECK_STOK_BARANG");
             _this.typeOrder = "Umum";
           } else {
             // pesan gagal

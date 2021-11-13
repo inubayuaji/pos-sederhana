@@ -109,3 +109,14 @@ ipcMain.handle("SUB_JUMLAH_BARANG", async function(event, id, jumlah) {
       jumlah: barang.jumlah - jumlah,
     });
 });
+
+ipcMain.handle("CHECK_STOK_BARANG", async function(event) {
+  var result = true;
+  var barang = await db.table('barang').where('jumlah', '=', '0').first();
+
+  if(barang == undefined) {
+    result = false;
+  }
+
+  return result;
+});

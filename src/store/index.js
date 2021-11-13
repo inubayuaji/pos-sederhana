@@ -16,6 +16,7 @@ export default new Vuex.Store({
     jasa: [],
     orderList: [],
     maxPages: 1,
+    isStokHabis: false,
   },
   mutations: {
     SET_LOGIN(state, payload) {
@@ -70,6 +71,9 @@ export default new Vuex.Store({
       );
 
       state.orderList[i].jumlah = payload.jumlah;
+    },
+    SET_STOk_STATUS(state, payload) {
+      state.isStokHabis = payload.status;
     },
   },
   actions: {
@@ -177,6 +181,11 @@ export default new Vuex.Store({
           });
         });
     },
+    async CHECK_STOK_BARANG(context) {
+      ipcRenderer.invoke("CHECK_STOK_BARANG").then((res) => {
+        context.commit("SET_STOk_STATUS", { status: res });
+      });
+    },
 
     async GET_JASA(context, payload) {
       ipcRenderer.invoke("GET_JASA", payload).then((res) => {
@@ -211,7 +220,7 @@ export default new Vuex.Store({
 
     async SAVE_ORDER(context, payload) {
       ipcRenderer.invoke("SAVE_ORDER", payload.orderList);
-    }
+    },
   },
   modules: {},
 });

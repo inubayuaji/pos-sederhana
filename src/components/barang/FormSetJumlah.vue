@@ -53,6 +53,7 @@ export default {
           id: this.barangId,
           jumlah: this.form.jumlah,
         });
+        this.$store.dispatch("CHECK_STOK_BARANG");
         this.dialog = false;
       }
     },

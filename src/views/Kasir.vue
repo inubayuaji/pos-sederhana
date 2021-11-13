@@ -35,6 +35,7 @@ export default {
   name: "KasirPage",
   mounted() {
     this.$router.push({ name: "Kasir.Barang" }).catch(() => {});
+    this.$store.dispatch("CHECK_STOK_BARANG");
   },
 };
 </script>
