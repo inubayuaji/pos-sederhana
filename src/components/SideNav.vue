@@ -45,7 +45,7 @@
     </v-list>
     <template v-slot:append v-if="isStokHabis">
       <v-list>
-        <v-list-item class="tertiary" @click="openStokHabis()">
+        <v-list-item class="tertiary" link :to="{ name: 'BarangHabis' }">
           <v-list-item-icon>
             <v-icon>mdi-alert</v-icon>
           </v-list-item-icon>
@@ -62,15 +62,10 @@ export default {
   computed: {
     isStokHabis() {
       return this.$store.state.isStokHabis;
-    }
-  },
-  methods: {
-    openStokHabis() {
-      alert('Halo');
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("CHECK_STOK_BARANG");
-  }
+  },
 };
 </script>

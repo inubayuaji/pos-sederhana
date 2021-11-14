@@ -112,11 +112,53 @@ ipcMain.handle("SUB_JUMLAH_BARANG", async function(event, id, jumlah) {
 
 ipcMain.handle("CHECK_STOK_BARANG", async function(event) {
   var result = true;
-  var barang = await db.table('barang').where('jumlah', '=', '0').first();
+  var barang = await db
+    .table("barang")
+    .where("jumlah", "=", "0")
+    .first();
 
-  if(barang == undefined) {
+  if (barang == undefined) {
     result = false;
   }
 
   return result;
+});
+
+ipcMain.handle("GET_HABIS_BARANG", async function(event, filter) {
+  var offset = (parseInt(filter.page) - 1) * 5;
+
+  var data = await db
+    .table("barang")
+    .limit(5)
+    .offset(offset)
+    .where("jumlah", 0)
+    .modify(function(query) {
+      if (filter.search != "") {
+        query.andWhere(function() {
+          this.where("nama", "LIKE", "%" + filter.search + "%")
+            .orWhere("barcode", "LIKE", "%" + filter.search + "%")
+            .orWhere("id", "LIKE", "%" + filter.search + "%");
+        });
+      }
+    });
+
+  var countRows = (
+    await db
+      .table("barang")
+      .where("jumlah", 0)
+      .modify(function(query) {
+        if (filter.search != "") {
+          query.andWhere(function() {
+            this.where("nama", "LIKE", "%" + filter.search + "%")
+              .orWhere("barcode", "LIKE", "%" + filter.search + "%")
+              .orWhere("id", "LIKE", "%" + filter.search + "%");
+          });
+        }
+      })
+      .count("* AS total")
+  )[0]["total"];
+
+  var maxPages = Math.ceil(parseInt(countRows) / 5);
+
+  return { data: data, maxPages: maxPages };
 });

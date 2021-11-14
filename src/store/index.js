@@ -15,6 +15,7 @@ export default new Vuex.Store({
     barang: [],
     jasa: [],
     orderList: [],
+    barangHabis: [],
     maxPages: 1,
     isStokHabis: false,
   },
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     SET_BARANG(state, payload) {
       state.barang = payload.barang;
+    },
+    SET_BARANG_HABIS(state, payload) {
+      state.barangHabis = payload.barang;
     },
     SET_JASA(state, payload) {
       state.jasa = payload.jasa;
@@ -163,13 +167,7 @@ export default new Vuex.Store({
     },
     async SET_JUMLAH_BARANG(context, payload) {
       ipcRenderer
-        .invoke("SET_JUMLAH_BARANG", payload.id, payload.jumlah)
-        .then(() => {
-          context.dispatch("GET_BARANG", {
-            search: "",
-            page: 1,
-          });
-        });
+        .invoke("SET_JUMLAH_BARANG", payload.id, payload.jumlah);
     },
     async SUB_JUMLAH_BARANG(context, payload) {
       ipcRenderer
@@ -184,6 +182,12 @@ export default new Vuex.Store({
     async CHECK_STOK_BARANG(context) {
       ipcRenderer.invoke("CHECK_STOK_BARANG").then((res) => {
         context.commit("SET_STOk_STATUS", { status: res });
+      });
+    },
+    async GET_HABIS_BARANG(context, payload) {
+      ipcRenderer.invoke("GET_HABIS_BARANG", payload).then((res) => {
+        context.commit("SET_BARANG_HABIS", { barang: res.data });
+        context.commit("SET_MAX_PAGES", { maxPages: res.maxPages });
       });
     },
 

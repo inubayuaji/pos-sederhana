@@ -48,6 +48,11 @@ const routes = [
     component: () => import("../views/Admin.vue"),
   },
   {
+    path: "/barang-habis",
+    name: "BarangHabis",
+    component: () => import("../views/BarangHabis.vue"),
+  },
+  {
     path: "/logout",
     name: "Logout",
     beforeEnter(to, from, next) {

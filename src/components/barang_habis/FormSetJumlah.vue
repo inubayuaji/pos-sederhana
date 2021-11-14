@@ -54,7 +54,7 @@ export default {
           jumlah: this.form.jumlah,
         });
         this.$store.dispatch("CHECK_STOK_BARANG");
-        this.$store.dispatch("GET_BARANG", {
+        this.$store.dispatch("GET_HABIS_BARANG", {
           search: "",
           page: 1,
         });
@@ -64,6 +64,6 @@ export default {
   },
   mounted() {
     this.form.jumlah = this.jumlah;
-  }
+  },
 };
 </script>
