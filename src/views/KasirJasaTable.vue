@@ -89,7 +89,7 @@ export default {
     addOrder(jasa) {
       this.$store.commit("ADD_ORDER", {
         order: {
-          barangId: jasa.id,
+          itemId: jasa.id,
           type: 'jasa',
           nama: jasa.nama,
           harga: jasa.harga,

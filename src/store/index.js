@@ -47,6 +47,7 @@ export default new Vuex.Store({
       state.jasa = payload.jasa;
     },
     ADD_ORDER(state, payload) {
+      console.log(payload);
       var i = state.orderList.findIndex(
         (order) => order.itemId == payload.order.itemId
       );
