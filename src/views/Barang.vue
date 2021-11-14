@@ -16,7 +16,7 @@
       </v-col>
       <v-col cols="4">
         <v-row justify="end">
-          <v-col cols="12" class="d-flex justify-end">
+          <v-col cols="12" class="justify-end d-flex">
             <form-tambah></form-tambah>
           </v-col>
         </v-row>
@@ -38,10 +38,11 @@
               <td>{{ row.item.id }}</td>
               <td>{{ row.item.barcode }}</td>
               <td>{{ row.item.nama }}</td>
+              <td>Rp {{ row.item.harga_beli }}</td>
               <td>Rp {{ row.item.harga_umum }}</td>
               <td>Rp {{ row.item.harga_reseler }}</td>
               <td>{{ row.item.jumlah }}</td>
-              <td class="d-flex justify-end">
+              <td class="justify-end d-flex">
                 <confirm-hapus :barang-id="row.item.id"></confirm-hapus>
                 <form-edit :barang-id="row.item.id" :barang="row.item"></form-edit>
                 <form-set-jumlah :barang-id="row.item.id" :jumlah="row.item.jumlah"></form-set-jumlah>
@@ -86,6 +87,7 @@ export default {
         { text: "ID", value: "id"},
         { text: "Barcode", value: "barcode"},
         { text: "Nama", value: "nama"},
+        { text: "Harga Beli", value: "harga_beli"},
         { text: "Harga Umum", value: "harga_umum"},
         { text: "Harga Reseler", value: "harga_reseler"},
         { text: "Jumlah", value: "jumlah" },

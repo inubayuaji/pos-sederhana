@@ -19,6 +19,7 @@ async function up(db) {
       table.string("id").primary();
       table.string("barcode");
       table.string("nama");
+      table.integer("harga_beli").defaultTo(0);
       table.integer("harga_umum").defaultTo(0);
       table.integer("harga_reseler").defaultTo(0);
       table.integer("jumlah").defaultTo(0);

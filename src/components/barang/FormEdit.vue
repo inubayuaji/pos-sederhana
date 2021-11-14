@@ -35,6 +35,14 @@
             ></v-text-field>
             <v-text-field
               type="number"
+              v-model="form.harga_beli"
+              :rules="[rules.required]"
+              dense
+              required
+              label="Harga Beli"
+            ></v-text-field>
+            <v-text-field
+              type="number"
               v-model="form.harga_umum"
               :rules="[rules.required]"
               dense
@@ -78,6 +86,7 @@ export default {
         id: "",
         barcode: "",
         nama: "",
+        harga_beli: 0,
         harga_umum: 0,
         harga_reseler: 0,
       },

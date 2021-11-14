@@ -40,6 +40,7 @@
               <td>{{ row.item.id }}</td>
               <td>{{ row.item.barcode }}</td>
               <td>{{ row.item.nama }}</td>
+              <td>Rp {{ row.item.harga_beli }}</td>
               <td>Rp {{ row.item.harga_umum }}</td>
               <td>Rp {{ row.item.harga_reseler }}</td>
               <td>{{ row.item.jumlah }}</td>
@@ -83,6 +84,7 @@ export default {
         { text: "ID", value: "id" },
         { text: "Barcode", value: "barcode" },
         { text: "Nama", value: "nama" },
+        { text: "Harga Beli", value: "harga_beli" },
         { text: "Harga Umum", value: "harga_umum" },
         { text: "Harga Reseler", value: "harga_reseler" },
         { text: "Jumlah", value: "jumlah" },
