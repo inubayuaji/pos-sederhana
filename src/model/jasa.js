@@ -9,10 +9,11 @@ ipcMain.handle("GET_JASA", async function(event, filter) {
     .limit(5)
     .offset(offset)
     .modify(function(query) {
-      if (filter.search != undefined) {
-        query
-          .where("nama", "LIKE", "%" + filter.search + "%")
-          .orWhere("id", "LIKE", "%" + filter.search + "%");
+      if (filter.search != "") {
+        query.andWhere(function() {
+          this.where("nama", "LIKE", "%" + filter.search + "%")
+            .orWhere("id", "LIKE", "%" + filter.search + "%");
+        })
       }
     });
 
@@ -20,10 +21,11 @@ ipcMain.handle("GET_JASA", async function(event, filter) {
     await db
       .table("jasa")
       .modify(function(query) {
-        if (filter.search != undefined) {
-          query
-            .where("nama", "LIKE", "%" + filter.search + "%")
-            .orWhere("id", "LIKE", "%" + filter.search + "%");
+        if (filter.search != "") {
+          query.andWhere(function() {
+            this.where("nama", "LIKE", "%" + filter.search + "%")
+              .orWhere("id", "LIKE", "%" + filter.search + "%");
+          })
         }
       })
       .count("* AS total")

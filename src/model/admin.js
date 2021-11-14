@@ -9,8 +9,8 @@ ipcMain.handle("GET_ADMIN", async function(event, filter) {
     .limit(5)
     .offset(offset)
     .modify(function(query) {
-      if (filter.search != undefined) {
-        query.where("nama", "LIKE", "%" + filter.search + "%");
+      if (filter.search != "") {
+        query.andWhere("nama", "LIKE", "%" + filter.search + "%");
       }
     });
 
@@ -18,8 +18,8 @@ ipcMain.handle("GET_ADMIN", async function(event, filter) {
     await db
       .table("admin")
       .modify(function(query) {
-        if (filter.search != undefined) {
-          query.where("nama", "LIKE", "%" + filter.search + "%");
+        if (filter.search != "") {
+          query.andWhere("nama", "LIKE", "%" + filter.search + "%");
         }
       })
       .count("* AS total")

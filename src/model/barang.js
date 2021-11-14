@@ -9,11 +9,12 @@ ipcMain.handle("GET_BARANG", async function(event, filter) {
     .limit(5)
     .offset(offset)
     .modify(function(query) {
-      if (filter.search != undefined) {
-        query
-          .where("nama", "LIKE", "%" + filter.search + "%")
-          .where("barcode", "LIKE", "%" + filter.search + "%")
-          .orWhere("id", "LIKE", "%" + filter.search + "%");
+      if (filter.search != "") {
+        query.andWhere(function() {
+          this.where("nama", "LIKE", "%" + filter.search + "%")
+            .orWhere("barcode", "LIKE", "%" + filter.search + "%")
+            .orWhere("id", "LIKE", "%" + filter.search + "%");
+        });
       }
     });
 
@@ -21,11 +22,12 @@ ipcMain.handle("GET_BARANG", async function(event, filter) {
     await db
       .table("barang")
       .modify(function(query) {
-        if (filter.search != undefined) {
-          query
-            .where("nama", "LIKE", "%" + filter.search + "%")
-            .where("barcode", "LIKE", "%" + filter.search + "%")
-            .orWhere("id", "LIKE", "%" + filter.search + "%");
+        if (filter.search != "") {
+          query.andWhere(function() {
+            this.where("nama", "LIKE", "%" + filter.search + "%")
+              .orWhere("barcode", "LIKE", "%" + filter.search + "%")
+              .orWhere("id", "LIKE", "%" + filter.search + "%");
+          });
         }
       })
       .count("* AS total")
