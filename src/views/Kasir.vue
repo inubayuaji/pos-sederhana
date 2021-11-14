@@ -52,7 +52,7 @@ export default {
 }
 .order-detail {
   width: 290px;
-  height: 100%;
+  height: 100vh;
 }
 @media only screen and (min-width: 900px) {
   .table-item {

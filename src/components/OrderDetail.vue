@@ -1,60 +1,66 @@
 <template>
-  <v-card elevation="0" color="rgb(29 29 35)" class="order-detail">
+  <v-card elevation="0" color="rgb(29 29 35)" class="pt-0 pb-0 order-detail">
     <simplebar class="bar">
-      <div class="order-date">
-        <h3>Tanggal</h3>
-        <h3>{{ tanggal }}</h3>
-      </div>
+      <div>
+        <div class="order-date">
+          <h3>Tanggal</h3>
+          <h3>{{ tanggal }}</h3>
+        </div>
 
-      <div class="mt-3">
-        <v-select
-          dense
-          :items="['Umum', 'Reseler']"
-          v-model="typeOrder"
-        ></v-select>
-      </div>
+        <div class="mt-3">
+          <v-select
+            dense
+            :items="['Umum', 'Reseler']"
+            v-model="typeOrder"
+          ></v-select>
+        </div>
 
-      <div class="mt-2 mb-2 hr"></div>
+        <div class="mt-2 mb-2 hr"></div>
 
-      <div class="order-list">
-        <div class="order-item" v-for="order in orderList" :key="order.itemId">
-          <div class="order-item-control">
-            <v-btn
-              icon
-              color="tertiary"
-              @click="hapus(order.itemId, order.type)"
-            >
-              <v-icon>mdi-delete-outline</v-icon>
-            </v-btn>
-          </div>
-          <div class="order-item-name">{{ order.nama }}</div>
-          <div class="order-item-price">
-            Rp <span>{{ hargaHadler(order) }}</span>
-          </div>
-          <div class="order-item-total">
-            <input
-              type="number"
-              class="order-item-total-input"
-              :value="order.jumlah"
-              @keyup="updateJumlah($event, order.itemId, order.type)"
-            />
+        <div class="order-list">
+          <div
+            class="order-item"
+            v-for="order in orderList"
+            :key="order.itemId"
+          >
+            <div class="order-item-control">
+              <v-btn
+                icon
+                color="tertiary"
+                @click="hapus(order.itemId, order.type)"
+              >
+                <v-icon>mdi-delete-outline</v-icon>
+              </v-btn>
+            </div>
+            <div class="order-item-name">{{ order.nama }}</div>
+            <div class="order-item-price">
+              Rp <span>{{ hargaHadler(order) }}</span>
+            </div>
+            <div class="order-item-total">
+              <input
+                type="number"
+                class="order-item-total-input"
+                :value="order.jumlah"
+                @keyup="updateJumlah($event, order.itemId, order.type)"
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="mt-2 mb-2 hr"></div>
+        <div class="mt-2 mb-2 hr"></div>
 
-      <div class="order-total">
-        <div class="order-total-label">Total</div>
-        <div class="order-total-price">
-          Rp <span>{{ totalOrder }}</span>
+        <div class="order-total">
+          <div class="order-total-label">Total</div>
+          <div class="order-total-price">
+            Rp <span>{{ totalOrder }}</span>
+          </div>
         </div>
-      </div>
 
-      <v-card-actions class="p-0 mt-5">
-        <v-btn color="tertiary" @click="batal()">Batal</v-btn>
-        <v-btn color="primary" @click="bayar()">Bayar</v-btn>
-      </v-card-actions>
+        <v-card-actions class="p-0 mt-5">
+          <v-btn color="tertiary" @click="batal()">Batal</v-btn>
+          <v-btn color="primary" @click="bayar()">Bayar</v-btn>
+        </v-card-actions>
+      </div>
     </simplebar>
   </v-card>
 </template>
@@ -170,7 +176,7 @@ export default {
     processeOrder(checkResult) {
       var _this = this;
 
-      if(this.orderList.length == 0) {
+      if (this.orderList.length == 0) {
         return false;
       }
 
@@ -235,7 +241,7 @@ export default {
 <style scoped>
 .order-detail {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 15px;
   background-color: rgb(29 29 35);
   border-color: rgb(29 29 35);
@@ -255,6 +261,8 @@ export default {
   display: flex;
   align-items: center;
   flex-grow: 4;
+  width: 300px;
+  overflow-x: hidden;
 }
 .order-item-price {
   display: flex;
@@ -289,7 +297,12 @@ input::-webkit-inner-spin-button {
 
 .bar {
   overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 15px;
+  padding-bottom: 45px;
+  width: 100%;
   height: 100%;
+  padding-right: 12px;
 }
 
 .hr {
