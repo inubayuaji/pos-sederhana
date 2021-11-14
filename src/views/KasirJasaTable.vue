@@ -14,7 +14,7 @@
       </v-col>
       <v-col cols="4">
         <v-row justify="end">
-          <v-col cols="12" class="d-flex justify-end">
+          <v-col cols="12" class="justify-end d-flex">
             <v-btn class="mr-2" color="primary" @click="openBarang()">Barang</v-btn>
             <v-btn color="quinary">Jasa</v-btn>
           </v-col>
@@ -37,7 +37,7 @@
               <td>{{ row.item.id }}</td>
               <td>{{ row.item.nama }}</td>
               <td>Rp {{ row.item.harga }}</td>
-              <td class="d-flex justify-end">
+              <td class="justify-end d-flex">
                 <v-btn icon color="primary" @click="addOrder(row.item)">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>

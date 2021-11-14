@@ -14,7 +14,7 @@
         ></v-select>
       </div>
 
-      <div class="hr mt-2 mb-2"></div>
+      <div class="mt-2 mb-2 hr"></div>
 
       <div class="order-list">
         <div class="order-item" v-for="order in orderList" :key="order.itemId">
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div class="hr mt-2 mb-2"></div>
+      <div class="mt-2 mb-2 hr"></div>
 
       <div class="order-total">
         <div class="order-total-label">Total</div>
@@ -194,6 +194,7 @@ export default {
           var newOrder = {
             type: order.type,
             nama: order.nama,
+            harga_beli: order.harga_beli,
             jumlah: order.jumlah,
           };
 

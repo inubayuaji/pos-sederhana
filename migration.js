@@ -32,9 +32,11 @@ async function up(db) {
     .createTable("order", function(table) {
       table.increments("id");
       table.timestamp("tanggal").defaultTo(db.fn.now());
+      table.integer("total_harga_beli").defaultTo(0);
       table.integer("total_barang").defaultTo(0);
       table.integer("total_jasa").defaultTo(0);
       table.integer("total").defaultTo(0);
+      table.integer("untung").defaultTo(0);
     })
     .createTable("order_item", function(table) {
       table.increments("id");
@@ -42,7 +44,8 @@ async function up(db) {
       table.string("type");
       table.string("nama_item");
       table.integer("jumlah");
-      table.integer("harga");
+      table.integer("harga_beli");
+      table.integer("harga_jual");
     });
 
   await db

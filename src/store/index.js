@@ -152,6 +152,7 @@ export default new Vuex.Store({
             itemId: res.id,
             type: "barang",
             nama: res.nama,
+            harga_beli: res.harga_beli,
             harga: res.harga,
             jumlah: 1,
           },
