@@ -49,11 +49,12 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn color="primary">Export</v-btn>
+    <v-btn color="primary" @click="openSaveDialog()">Export</v-btn>
   </div>
 </template>
 
 <script>
+import { remote } from "electron";
 import { VueDatePicker } from "@mathieustan/vue-datepicker";
 import "@mathieustan/vue-datepicker/dist/vue-datepicker.min.css";
 
@@ -64,7 +65,7 @@ export default {
   },
   data() {
     return {
-      type: 'date',
+      type: "date",
       isVisible: false,
       dateType: "Harian",
       datePick: null,
@@ -73,8 +74,8 @@ export default {
   },
   watch: {
     datePick() {
-      this.$emit('update', this.datePick, this.produkType);
-    }
+      this.$emit("update", this.datePick, this.produkType);
+    },
   },
   methods: {
     changeDateType(type) {
@@ -90,12 +91,19 @@ export default {
         this.type = "year";
       }
 
-      this.$emit('update', this.datePick, this.produkType);
+      this.$emit("update", this.datePick, this.produkType);
     },
     changeProdukType(type) {
       this.produkType = type;
 
-      this.$emit('update', this.datePick, this.produkType);
+      this.$emit("update", this.datePick, this.produkType);
+    },
+    async openSaveDialog() {
+      var filePath = await remote.dialog.showSaveDialogSync({
+        title: "Export order",
+        filters: [{ name: "Excel", extensions: ["csv"] }],
+      });
+      this.$emit("save", filePath);
     },
   },
 };

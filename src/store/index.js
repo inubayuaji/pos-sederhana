@@ -248,6 +248,9 @@ export default new Vuex.Store({
         context.commit("SET_PROFIT", { untung: res });
       });
     },
+    async EXPORT_ORDER(context, payload) {
+      ipcRenderer.invoke("EXPORT_ORDER", payload.filter, payload.filePath);
+    },
   },
   modules: {},
 });

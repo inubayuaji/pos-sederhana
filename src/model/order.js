@@ -1,5 +1,6 @@
 import db from "../plugins/db";
 import { ipcMain } from "electron";
+import { createObjectCsvWriter } from "csv-writer";
 
 ipcMain.handle("GET_ORDER", async function(event, filter) {
   var offset = (parseInt(filter.page) - 1) * 5;
@@ -113,4 +114,29 @@ ipcMain.handle("GET_PROFIT_ORDER", async function(event, filter) {
   };
 
   return res;
+});
+
+ipcMain.handle("EXPORT_ORDER", async function(event, filter, filePath) {
+  var data = await db.table("order").modify(function(query) {
+    if (filter.search != "") {
+      query.andWhere(function() {
+        this.orWhere("id", "LIKE", "%" + filter.search + "%");
+      });
+    }
+    if (filter.datePick != null) {
+      query.andWhere("tanggal", "LIKE", "%" + filter.datePick + "%");
+    }
+  });
+
+  const csvWriter = createObjectCsvWriter({
+    path: filePath,
+    fieldDelimiter: ";",
+    header: [
+      { id: "id", title: "ID" },
+      { id: "tanggal", title: "Tanggal" },
+      { id: "total", title: "Total" },
+    ],
+  });
+
+  csvWriter.writeRecords(data);
 });

@@ -21,7 +21,10 @@
       <v-col cols="9">
         <v-row justify="end">
           <v-col cols="12" class="d-flex justify-end">
-            <akuntansi-filter @update="updateFilter"></akuntansi-filter>
+            <akuntansi-filter
+              @update="updateFilter"
+              @save="exportExcel"
+            ></akuntansi-filter>
           </v-col>
         </v-row>
       </v-col>
@@ -109,7 +112,7 @@ export default {
         return this.untung.untung_jasa;
       }
       return this.untung.untung;
-    }
+    },
   },
   methods: {
     async filterTable() {
@@ -139,6 +142,15 @@ export default {
         search: this.search,
         page: this.page,
         datePick: this.datePick,
+      });
+    },
+    exportExcel(filePath) {
+      this.$store.dispatch("EXPORT_ORDER", {
+        filter: {
+          search: this.search,
+          datePick: this.datePick,
+        },
+        filePath: filePath,
       });
     },
   },
