@@ -14,10 +14,16 @@ export default new Vuex.Store({
     admin: [],
     barang: [],
     jasa: [],
+    order: [],
     orderList: [],
     barangHabis: [],
     maxPages: 1,
     isStokHabis: false,
+    untung: {
+      untung: 0,
+      untung_barang: 0,
+      untung_jasa: 0,
+    },
   },
   mutations: {
     SET_LOGIN(state, payload) {
@@ -78,6 +84,12 @@ export default new Vuex.Store({
     },
     SET_STOk_STATUS(state, payload) {
       state.isStokHabis = payload.status;
+    },
+    SET_ORDER(state, payload) {
+      state.order = payload.order;
+    },
+    SET_PROFIT(state, payload) {
+      state.untung = payload.untung;
     },
   },
   actions: {
@@ -167,8 +179,7 @@ export default new Vuex.Store({
         });
     },
     async SET_JUMLAH_BARANG(context, payload) {
-      ipcRenderer
-        .invoke("SET_JUMLAH_BARANG", payload.id, payload.jumlah);
+      ipcRenderer.invoke("SET_JUMLAH_BARANG", payload.id, payload.jumlah);
     },
     async SUB_JUMLAH_BARANG(context, payload) {
       ipcRenderer
@@ -223,8 +234,19 @@ export default new Vuex.Store({
       });
     },
 
+    async GET_ORDER(context, payload) {
+      ipcRenderer.invoke("GET_ORDER", payload).then((res) => {
+        context.commit("SET_ORDER", { order: res.data });
+        context.commit("SET_MAX_PAGES", { maxPages: res.maxPages });
+      });
+    },
     async SAVE_ORDER(context, payload) {
       ipcRenderer.invoke("SAVE_ORDER", payload.orderList);
+    },
+    async GET_PROFIT_ORDER(context, payload) {
+      ipcRenderer.invoke("GET_PROFIT_ORDER", payload).then((res) => {
+        context.commit("SET_PROFIT", { untung: res });
+      });
     },
   },
   modules: {},
