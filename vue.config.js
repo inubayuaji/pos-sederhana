@@ -16,7 +16,7 @@ module.exports = {
           allowToChangeInstallationDirectory: true,
         },
       },
-      externals: ["knex", "sqlite3"],
+      externals: ["knex", "sqlite3", "electron-pos-printer"],
     },
   },
 };

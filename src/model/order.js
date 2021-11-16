@@ -1,6 +1,7 @@
 import db from "../plugins/db";
-import { ipcMain } from "electron";
+import { ipcMain, BrowserWindow, BrowserView } from "electron";
 import { createObjectCsvWriter } from "csv-writer";
+import { PosPrinter } from "electron-pos-printer";
 
 ipcMain.handle("GET_ORDER", async function(event, filter) {
   var offset = (parseInt(filter.page) - 1) * 5;
@@ -140,3 +141,126 @@ ipcMain.handle("EXPORT_ORDER", async function(event, filter, filePath) {
 
   csvWriter.writeRecords(data);
 });
+
+ipcMain.handle("PRINT_ORDER", async function(event, orderList) {
+  const dayName = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jum'at",
+    "Sabtu",
+  ];
+  const d = new Date();
+
+  var orderTotal = 0;
+  orderList.forEach((order) => {
+    orderTotal += order.harga * order.jumlah;
+  });
+
+  orderList = orderList.map((order) => {
+    return [
+      {
+        type: "text",
+        value:
+          "<div style='text-align:left;'>" +
+          order.nama +
+          "</div>" +
+          "<div style='text-align:right;'>" +
+          order.jumlah +
+          "x" +
+          order.harga +
+          " " +
+          order.jumlah * order.harga +
+          "</div>",
+      },
+    ];
+  });
+
+  // ukuran kerta kadan kurang pas
+  const option = {
+    silent: true,
+    preview: false,
+    width: "4.73cm",
+    margin: "0 0 0 0",
+    copies: 1,
+    printerName: getPrinterName(),
+    timeOutPerLine: 1000,
+    pageSize: { height: 3276000, width: 48000 },
+  };
+  const data = [
+    {
+      type: "text",
+      value: "TOKO JELITA<br/>TAYU",
+      css: {
+        "font-weight": "700",
+        "font-size": "12px",
+        "font-family": "monospace, cursive",
+        "text-align": "center",
+      },
+    },
+    {
+      type: "text",
+      value:
+        dayName[d.getDay()] +
+        ", " +
+        d.getDate() +
+        "/" +
+        d.getMonth() +
+        "/" +
+        d.getFullYear(),
+      css: {
+        "font-weight": "600",
+        "font-size": "10px",
+        "font-family": "monospace, cursive",
+        "text-align": "center",
+      },
+    },
+    {
+      type: "table",
+      // multi dimensional array depicting the rows and columns of the table body
+      tableBody: orderList,
+      tableFooter: [
+        {
+          type: "text",
+          value: "Total " + orderTotal,
+          css: { "text-align": "right" },
+        },
+      ],
+      css: {
+        "margin-top": "10px",
+        "font-size": "10px",
+      },
+    },
+    {
+      type: "text",
+      value: "Terimakasih atas kunjungan anda.",
+      css: {
+        "margin-top": "10px",
+        "font-weight": "600",
+        "font-size": "10px",
+        "font-family": "monospace, cursive",
+        "text-align": "center",
+      },
+    },
+  ];
+
+  console.log(option);
+
+  PosPrinter.print(data, option).catch((error) => {
+    console.log(error);
+  });
+});
+
+function getPrinterName() {
+  var printerList = BrowserWindow.getFocusedWindow()
+    .webContents.getPrinters()
+    .reverse();
+
+  if (printerList == []) {
+    return "";
+  }
+
+  return printerList[0].name;
+}

@@ -16,6 +16,7 @@
     "@mathieustan/vue-datepicker": "^0.2.11",
     "core-js": "^3.6.5",
     "csv-writer": "^1.6.0",
+    "electron-pos-printer": "^1.2.4",
     "knex": "^0.95.11",
     "onscan.js": "^1.5.2",
     "simplebar-vue": "^1.6.8",

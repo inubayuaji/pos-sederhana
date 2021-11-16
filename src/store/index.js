@@ -242,6 +242,8 @@ export default new Vuex.Store({
     },
     async SAVE_ORDER(context, payload) {
       ipcRenderer.invoke("SAVE_ORDER", payload.orderList);
+
+      context.dispatch("PRINT_ORDER", payload);
     },
     async GET_PROFIT_ORDER(context, payload) {
       ipcRenderer.invoke("GET_PROFIT_ORDER", payload).then((res) => {
@@ -251,6 +253,9 @@ export default new Vuex.Store({
     async EXPORT_ORDER(context, payload) {
       ipcRenderer.invoke("EXPORT_ORDER", payload.filter, payload.filePath);
     },
+    async PRINT_ORDER(context, payload){
+      ipcRenderer.invoke("PRINT_ORDER", payload.orderList);
+    }
   },
   modules: {},
 });
