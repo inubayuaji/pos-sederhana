@@ -253,6 +253,43 @@ ipcMain.handle("PRINT_ORDER", async function(event, orderList) {
   });
 });
 
+ipcMain.handle("GET_DETAIL_ORDER", async function(event, filter, id) {
+  var offset = (parseInt(filter.page) - 1) * 5;
+
+  var data = await db
+    .table("order_item")
+    .limit(5)
+    .offset(offset)
+    .where("order_id", id)
+    .modify(function(query) {
+      if (filter.search != "") {
+        query.andWhere(function() {
+          this.orWhere("id", "LIKE", "%" + filter.search + "%");
+          this.orWhere("nama_item", "LIKE", "%" + filter.search + "%");
+        });
+      }
+    });
+
+  var countRows = (
+    await db
+      .table("order_item")
+      .where("order_id", id)
+      .modify(function(query) {
+        if (filter.search != "") {
+          query.andWhere(function() {
+            this.orWhere("id", "LIKE", "%" + filter.search + "%");
+            this.orWhere("nama_item", "LIKE", "%" + filter.search + "%");
+          });
+        }
+      })
+      .count("* AS total")
+  )[0]["total"];
+
+  var maxPages = Math.ceil(parseInt(countRows) / 5);
+
+  return { data: data, maxPages: maxPages };
+});
+
 function getPrinterName() {
   var printerList = BrowserWindow.getFocusedWindow()
     .webContents.getPrinters()

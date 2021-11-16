@@ -16,6 +16,7 @@ export default new Vuex.Store({
     jasa: [],
     order: [],
     orderList: [],
+    orderDetail: [],
     barangHabis: [],
     maxPages: 1,
     isStokHabis: false,
@@ -90,6 +91,9 @@ export default new Vuex.Store({
     },
     SET_PROFIT(state, payload) {
       state.untung = payload.untung;
+    },
+    SET_DETAIL_ORDER(state, payload) {
+      state.orderDetail = payload.orderDetail;
     },
   },
   actions: {
@@ -253,9 +257,15 @@ export default new Vuex.Store({
     async EXPORT_ORDER(context, payload) {
       ipcRenderer.invoke("EXPORT_ORDER", payload.filter, payload.filePath);
     },
-    async PRINT_ORDER(context, payload){
+    async PRINT_ORDER(context, payload) {
       ipcRenderer.invoke("PRINT_ORDER", payload.orderList);
-    }
+    },
+    async GET_DETAIL_ORDER(context, payload) {
+      ipcRenderer.invoke("GET_DETAIL_ORDER", payload.filter, payload.id).then((res) => {
+        context.commit("SET_DETAIL_ORDER", { orderDetail: res.data });
+        context.commit("SET_MAX_PAGES", { maxPages: res.maxPages });
+      });
+    },
   },
   modules: {},
 });

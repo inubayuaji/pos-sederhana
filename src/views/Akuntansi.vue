@@ -46,7 +46,14 @@
               <td>{{ row.item.tanggal }}</td>
               <td>Rp {{ row.item.total }}</td>
               <td class="d-flex justify-end">
-                <!-- <confirm-hapus :jasa-id="row.item.id"></confirm-hapus> -->
+                <v-btn
+                  link
+                  color="quinary"
+                  icon
+                  :to="{ name: 'AkuntansiDetail', params: { id: row.item.id } }"
+                >
+                  <v-icon>mdi-folder-search</v-icon>
+                </v-btn>
               </td>
             </tr>
           </template>
